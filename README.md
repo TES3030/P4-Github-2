@@ -6,3 +6,7 @@ RULES FOR THIS GITHUB
 2) This folder includes the Unity folder project but can also include other shared files
 3) While working in Unity, make your own scenes in which you work
 4) While working in Unity, make your own branch to avoid deletion of things
+
+Testing out integration with Git and your software goes below:
+____________________
+Test from Lasse
