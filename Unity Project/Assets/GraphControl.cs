@@ -28,16 +28,14 @@ public class GraphControl : MonoBehaviour {
 
     public void randomChange() //Puts in random values across all Gameobjects
     {
-        
-        //pointsList.Clear();
+        Vector3 temp;        //pointsList.Clear();
         for(int i = 0; i<pointsList.Count; i++) //Loop goes through each object of array and change Y value with random factor
         {
             if (pointsList[i] != null)
             {
-                Vector3 temp;
-
+                
                 temp = pointsList[i].transform.position;
-                temp.y *= (Random.Range(-1.0f, 1.0f)); //access and change y value
+                temp.z *= (Random.Range(-1.0f, 1.0f)); //access and change y value
                 pointsList[i].transform.position = temp;
 
             }
@@ -70,23 +68,23 @@ public class GraphControl : MonoBehaviour {
     public void createPoints()
     {
         //float z = 0;
-        //Vector3 temp;
+        Vector3 temp;
         xPoint.transform.position = new Vector3(0,0,0); //Amount of increment between points!
 
         for (int i = 0; i < xLength; i++)
         {
             //This for loop adds pointsObjects to pointsList 
             //and instantiate the points in world space with each their own values
-            
-            xPoint.transform.position += Vector3.up; //Amount of increment between points!
-            pointsList.Add(xPoint);
-            /*
-            temp = xPoint.transform.position; //Amount of increment between points!
-            temp.y += 1;
-            xPoint.transform.position = temp;
-            */
 
-            //pointsList.Add(xPoint(new Vector3(0,0,0)));
+            //GameObject obj = xPoint(xPoint.transform.position += Vector3.up);
+            //pointsList.Add(obj);
+            
+            temp = xPoint.transform.position; //Amount of increment between points!
+            temp.z += 0.5f;
+            xPoint.transform.position = temp;
+            
+
+            pointsList.Add(xPoint);
 
         }
         instantiatePoints();
