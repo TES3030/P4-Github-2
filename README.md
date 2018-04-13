@@ -9,4 +9,4 @@ RULES FOR THIS GITHUB
 
 Testing out integration with Git and your software goes below:
 ____________________
-Test from Lasse
+Test in PD Int. from Lasse
