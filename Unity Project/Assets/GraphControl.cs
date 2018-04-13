@@ -11,8 +11,8 @@ public class GraphControl : MonoBehaviour {
         
     public GameObject xPoint;
 
-    List<PointsObjects> pointsList = new List<PointsObjects>();//not completely sure if this is correct
-    List<GameObject> pointsGOList = new List<GameObject>();
+    //List<PointsObjects> pointsList = new List<PointsObjects>();//not completely sure if this is correct
+    List<GameObject> pointsList = new List<GameObject>();
         
     //private GameObject[] graphObjects; //Old variable not used anymore..
     //private GameObject[] pointsList;
@@ -49,21 +49,20 @@ public class GraphControl : MonoBehaviour {
         {
             if (pointsList[i] != null)
             {
-                /*
                 float temp = 0;
-                temp * (Random.Range(-1.0f, 1.0f)); //access and change y value
-                pointsList[i].zValue = temp;
-                */
-                pointsList[i].yValue *= (Random.Range(-1.0f, 1.0f)); //access and change y value
-                instantiatePoints();
+
+                temp = pointsList[i].transform.position.z;
+                temp *= (Random.Range(-1.0f, 1.0f)); //access and change y value
+                pointsList[i].transform.position.z = temp;
+
             }
             else {
             Debug.Log("obj is null");
         }
     }
-        createPoints();
+        instantiatePoints();
 
-        for(int i = 0; i < pointsList.Count; i++) //go through obj's in pointslist
+        for (int i = 0; i < pointsList.Count; i++) //go through obj's in pointslist
         {
             print(pointsList[i]); //Print position of objects to console
             
@@ -91,20 +90,18 @@ public class GraphControl : MonoBehaviour {
             //This for loop adds pointsObjects to pointsList 
             //and instantiate the points in world space with each their own values
 
-            pointsList.Add(new PointsObjects(new Vector3(0, 0, z)));
+            pointsList.Add(new xPoint(new Vector3(0, 0, z)));
             z += 1; //Amount of increment between points!
         }
-
+        instantiatePoints();
     }
 
-    public void instantiatePoints() { 
-        foreach (PointsObjects obj in pointsList)
+    public void instantiatePoints()
+    {
+        for (int i = 0; i < pointsList.Count; i++)
         {
-            GameObject pointsGO = Instantiate(xPoint, new Vector3(obj.xValue, obj.yValue, obj.zValue), Quaternion.identity) as GameObject;//swap prefab with something
-            pointsGOList.Add(pointsGO);
-            
+            GameObject point = Instantiate(pointsList[i]) as GameObject;
         }
-
     }
 
     void Start() 
@@ -124,7 +121,6 @@ public class GraphControl : MonoBehaviour {
             xLength = xRange;//Come back to why 2 variables are important again?
 
             createPoints();
-            instantiatePoints();
 
             //GraphHolder.SendMessage("createPoints", xLength); //number of points are created according to specified xRange
             //GameObject[] pointsList = new GameObject[xRange]; //Feed variable here to determine ArraySize
