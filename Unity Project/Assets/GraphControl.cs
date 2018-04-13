@@ -11,13 +11,8 @@ public class GraphControl : MonoBehaviour {
         
     public GameObject xPoint;
 
-    //List<PointsObjects> pointsList = new List<PointsObjects>();//not completely sure if this is correct
     List<GameObject> pointsList = new List<GameObject>();
-        
-    //private GameObject[] graphObjects; //Old variable not used anymore..
-    //private GameObject[] pointsList;
-    //public GameObject[] pointCount = new GameObject[100]; //Maximum size of array of X objects
-
+   
 
     /*
     public void PrintInitialValue() //Run on start to print initial values
@@ -29,31 +24,21 @@ public class GraphControl : MonoBehaviour {
             }
     }*/
 
-    /*
-      public void sineCurve()
-    {
-
-        foreach (GameObject value in pointsList)
-        {
-
-        }
-    }
-    */
-
+   
 
     public void randomChange() //Puts in random values across all Gameobjects
     {
-        //int i = 0;
+        
         //pointsList.Clear();
         for(int i = 0; i<pointsList.Count; i++) //Loop goes through each object of array and change Y value with random factor
         {
             if (pointsList[i] != null)
             {
-                float temp = 0;
+                Vector3 temp;
 
-                temp = pointsList[i].transform.position.z;
-                temp *= (Random.Range(-1.0f, 1.0f)); //access and change y value
-                pointsList[i].transform.position.z = temp;
+                temp = pointsList[i].transform.position;
+                temp.y *= (Random.Range(-1.0f, 1.0f)); //access and change y value
+                pointsList[i].transform.position = temp;
 
             }
             else {
@@ -84,14 +69,25 @@ public class GraphControl : MonoBehaviour {
 
     public void createPoints()
     {
-        float z = 0;
+        //float z = 0;
+        //Vector3 temp;
+        xPoint.transform.position = new Vector3(0,0,0); //Amount of increment between points!
+
         for (int i = 0; i < xLength; i++)
         {
             //This for loop adds pointsObjects to pointsList 
             //and instantiate the points in world space with each their own values
+            
+            xPoint.transform.position += Vector3.up; //Amount of increment between points!
+            pointsList.Add(xPoint);
+            /*
+            temp = xPoint.transform.position; //Amount of increment between points!
+            temp.y += 1;
+            xPoint.transform.position = temp;
+            */
 
-            pointsList.Add(new xPoint(new Vector3(0, 0, z)));
-            z += 1; //Amount of increment between points!
+            //pointsList.Add(xPoint(new Vector3(0,0,0)));
+
         }
         instantiatePoints();
     }
@@ -106,7 +102,7 @@ public class GraphControl : MonoBehaviour {
 
     void Start() 
     {
-
+        //xPoint = GameObject.Find("xPoint");
         //Debug.Log("Initial Array size: "+ pointsList.Count);
 
     }
