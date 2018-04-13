@@ -8,6 +8,8 @@ public class GraphControl : MonoBehaviour {
     public int xRange = 10; //Array range + numbers of gameObjects on X axis..
     //What is the difference between these??
     public int xLength = 10; // Gameobjects to create in Unity
+
+    public int pointSpacing = 1;
         
     public GameObject xPoint;
 
@@ -35,7 +37,7 @@ public class GraphControl : MonoBehaviour {
             {
                 
                 temp = pointsList[i].transform.position;
-                temp.z *= (Random.Range(-1.0f, 1.0f)); //access and change y value
+                temp.y *= (Random.Range(-1.0f, 1.0f)); //access and change y value
                 pointsList[i].transform.position = temp;
 
             }
@@ -43,7 +45,7 @@ public class GraphControl : MonoBehaviour {
             Debug.Log("obj is null");
         }
     }
-        instantiatePoints();
+        //createAndInstantiatePoints();
 
         for (int i = 0; i < pointsList.Count; i++) //go through obj's in pointslist
         {
@@ -65,38 +67,21 @@ public class GraphControl : MonoBehaviour {
     }
     */
 
-    public void createPoints()
+    public void createAndInstantiatePoints()
     {
-        //float z = 0;
-        Vector3 temp;
-        xPoint.transform.position = new Vector3(0,0,0); //Amount of increment between points!
 
+        Vector3 pointVec = new Vector3(0, 0, 0);
         for (int i = 0; i < xLength; i++)
         {
             //This for loop adds pointsObjects to pointsList 
             //and instantiate the points in world space with each their own values
-
-            //GameObject obj = xPoint(xPoint.transform.position += Vector3.up);
-            //pointsList.Add(obj);
             
-            temp = xPoint.transform.position; //Amount of increment between points!
-            temp.z += 0.5f;
-            xPoint.transform.position = temp;
-            
-
-            pointsList.Add(xPoint);
+            pointsList.Add( (GameObject)Instantiate(xPoint, pointVec, Quaternion.identity));
+            pointVec.z += pointSpacing;
 
         }
-        instantiatePoints();
     }
 
-    public void instantiatePoints()
-    {
-        for (int i = 0; i < pointsList.Count; i++)
-        {
-            GameObject point = Instantiate(pointsList[i]) as GameObject;
-        }
-    }
 
     void Start() 
     {
@@ -114,7 +99,7 @@ public class GraphControl : MonoBehaviour {
             print("Backspace key was pressed");
             xLength = xRange;//Come back to why 2 variables are important again?
 
-            createPoints();
+            createAndInstantiatePoints();
 
             //GraphHolder.SendMessage("createPoints", xLength); //number of points are created according to specified xRange
             //GameObject[] pointsList = new GameObject[xRange]; //Feed variable here to determine ArraySize
@@ -123,10 +108,17 @@ public class GraphControl : MonoBehaviour {
             //Debug.Log("Current Array Size:"+ this.pointsList.Length);
         }
 
-           if (Input.GetKeyDown("space")) { 
-                print("Space key was pressed");
-                 randomChange();
-        }  
+        if (Input.GetKeyDown("space"))
+        {
+            print("Space key was pressed");
+            randomChange();
+        }
+        if (Input.GetKeyDown("p"))
+        {
+            print("printing list");
+            print("list length: "+pointsList.Count);
+            for (int i = 0; i < pointsList.Count; i++) { print(" pos of number " + i + " of the list: " + pointsList[i].transform.position); }
+        }
     }
 }
 
