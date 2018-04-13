@@ -1,4 +1,19 @@
-﻿using System.Collections;
+﻿/*
+ * 
+ * GraphControl: 
+ * Tries to map all points/gameobjects in function curve (time-domain)
+ * All points (gameobjects) has a vector with info on location in 3d-space (x,y,z)
+ * X = phase shift of function
+ * Y = vertical shift of function
+ * Z = n/a - maybe could affect some sort of effect such as reverb
+ * 
+ * 
+ * 
+ * Future:
+ * Comments:
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

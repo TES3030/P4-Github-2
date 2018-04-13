@@ -1,4 +1,14 @@
-﻿using System.Collections;
+﻿/*
+ * 
+ * PointsObjects:
+ * 
+ * 
+ * 
+ * Future:
+ * Comments:
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
