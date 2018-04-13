@@ -1,4 +1,22 @@
-﻿using System.Collections;
+﻿/*
+ * 
+ * GraphControl: 
+ * Tries to map all points/gameobjects in function curve (time-domain)
+ * Manages functions mathematically(?) and the shape of curve (sine, square, triangle etc)
+ * 
+ * All points (gameobjects) comes from an array. (manual as of now)
+ * They are vectors with info on location in 3d-space (x,y,z)
+ * X = phase shift of function
+ * Y = vertical shift of function
+ * Z = n/a - maybe could implement zoom for camera to go closer to curve
+ * 
+ * 
+ * 
+ * Future: maybe ArrayList for integrating array values better
+ * Comments:
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

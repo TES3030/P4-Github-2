@@ -1,4 +1,14 @@
-﻿using System.Collections;
+﻿/*
+ * 
+ * LineScript:
+ * Creates line between objects (the sides of them, not from center)
+ * as of now (13-04-18) we need to manually connect all objects to each other
+ * 
+ * Future: This will go in a loop to register all objects
+ * Comments:
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
