@@ -26,16 +26,13 @@ public class GraphControl : MonoBehaviour {
     public int xRange = 10; //Array range + numbers of gameObjects on X axis..
     //What is the difference between these??
     public int xLength = 10; // Gameobjects to create in Unity
+
+    public int pointSpacing = 1;
         
     public GameObject xPoint;
 
-    List<PointsObjects> pointsList = new List<PointsObjects>();//not completely sure if this is correct
-    List<GameObject> pointsGOList = new List<GameObject>();
-        
-    //private GameObject[] graphObjects; //Old variable not used anymore..
-    //private GameObject[] pointsList;
-    //public GameObject[] pointCount = new GameObject[100]; //Maximum size of array of X objects
-
+    List<GameObject> pointsList = new List<GameObject>();
+   
 
     /*
     public void PrintInitialValue() //Run on start to print initial values
@@ -47,41 +44,28 @@ public class GraphControl : MonoBehaviour {
             }
     }*/
 
-    /*
-      public void sineCurve()
-    {
-
-        foreach (GameObject value in pointsList)
-        {
-
-        }
-    }
-    */
-
+   
 
     public void randomChange() //Puts in random values across all Gameobjects
     {
-        //int i = 0;
-        //pointsList.Clear();
+        Vector3 temp;        //pointsList.Clear();
         for(int i = 0; i<pointsList.Count; i++) //Loop goes through each object of array and change Y value with random factor
         {
             if (pointsList[i] != null)
             {
-                /*
-                float temp = 0;
-                temp * (Random.Range(-1.0f, 1.0f)); //access and change y value
-                pointsList[i].zValue = temp;
-                */
-                pointsList[i].yValue *= (Random.Range(-1.0f, 1.0f)); //access and change y value
-                instantiatePoints();
+                
+                temp = pointsList[i].transform.position;
+                temp.y *= (Random.Range(-1.0f, 1.0f)); //access and change y value
+                pointsList[i].transform.position = temp;
+
             }
             else {
             Debug.Log("obj is null");
         }
     }
-        createPoints();
+        //createAndInstantiatePoints();
 
-        for(int i = 0; i < pointsList.Count; i++) //go through obj's in pointslist
+        for (int i = 0; i < pointsList.Count; i++) //go through obj's in pointslist
         {
             print(pointsList[i]); //Print position of objects to console
             
@@ -101,33 +85,25 @@ public class GraphControl : MonoBehaviour {
     }
     */
 
-    public void createPoints()
+    public void createAndInstantiatePoints()
     {
-        float z = 0;
+
+        Vector3 pointVec = new Vector3(0, 0, 0);
         for (int i = 0; i < xLength; i++)
         {
             //This for loop adds pointsObjects to pointsList 
             //and instantiate the points in world space with each their own values
-
-            pointsList.Add(new PointsObjects(new Vector3(0, 0, z)));
-            z += 1; //Amount of increment between points!
-        }
-
-    }
-
-    public void instantiatePoints() { 
-        foreach (PointsObjects obj in pointsList)
-        {
-            GameObject pointsGO = Instantiate(xPoint, new Vector3(obj.xValue, obj.yValue, obj.zValue), Quaternion.identity) as GameObject;//swap prefab with something
-            pointsGOList.Add(pointsGO);
             
-        }
+            pointsList.Add( (GameObject)Instantiate(xPoint, pointVec, Quaternion.identity));
+            pointVec.z += pointSpacing;
 
+        }
     }
+
 
     void Start() 
     {
-
+        //xPoint = GameObject.Find("xPoint");
         //Debug.Log("Initial Array size: "+ pointsList.Count);
 
     }
@@ -141,8 +117,7 @@ public class GraphControl : MonoBehaviour {
             print("Backspace key was pressed");
             xLength = xRange;//Come back to why 2 variables are important again?
 
-            createPoints();
-            instantiatePoints();
+            createAndInstantiatePoints();
 
             //GraphHolder.SendMessage("createPoints", xLength); //number of points are created according to specified xRange
             //GameObject[] pointsList = new GameObject[xRange]; //Feed variable here to determine ArraySize
@@ -151,10 +126,17 @@ public class GraphControl : MonoBehaviour {
             //Debug.Log("Current Array Size:"+ this.pointsList.Length);
         }
 
-           if (Input.GetKeyDown("space")) { 
-                print("Space key was pressed");
-                 randomChange();
-        }  
+        if (Input.GetKeyDown("space"))
+        {
+            print("Space key was pressed");
+            randomChange();
+        }
+        if (Input.GetKeyDown("p"))
+        {
+            print("printing list");
+            print("list length: "+pointsList.Count);
+            for (int i = 0; i < pointsList.Count; i++) { print(" pos of number " + i + " of the list: " + pointsList[i].transform.position); }
+        }
     }
 }
 
