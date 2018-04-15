@@ -41,7 +41,7 @@ public class Hv_pdint1_Editor : Editor {
     // freq
     GUILayout.BeginHorizontal();
     float freq = _dsp.GetFloatParameter(Hv_pdint1_AudioLib.Parameter.Freq);
-    float newFreq = EditorGUILayout.Slider("freq", freq, 100.0f, 2000.0f);
+    float newFreq = EditorGUILayout.Slider("freq", freq, 0.0f, 2000.0f);
     if (freq != newFreq) {
       _dsp.SetFloatParameter(Hv_pdint1_AudioLib.Parameter.Freq, newFreq);
     }
@@ -64,33 +64,14 @@ public class Hv_pdint1_Editor : Editor {
 public class Hv_pdint1_AudioLib : MonoBehaviour {
   
   // Parameters are used to send float messages into the patch context (thread-safe).
-  // Example usage:
-  /*
-    void Start () {
-        Hv_pdint1_AudioLib script = GetComponent<Hv_pdint1_AudioLib>();
-        // Get and set a parameter
-        float freq = script.GetFloatParameter(Hv_pdint1_AudioLib.Parameter.Freq);
-        script.SetFloatParameter(Hv_pdint1_AudioLib.Parameter.Freq, freq + 0.1f);
-    }
-  */
+
   public enum Parameter : uint {
     Freq = 0x345FC008,
     Gain = 0x811CC33F,
   }
   
   // Delegate method for receiving float messages from the patch context (thread-safe).
-  // Example usage:
-  /*
-    void Start () {
-        Hv_pdint1_AudioLib script = GetComponent<Hv_pdint1_AudioLib>();
-        script.RegisterSendHook();
-        script.FloatReceivedCallback += OnFloatMessage;
-    }
 
-    void OnFloatMessage(Hv_pdint1_AudioLib.FloatMessage message) {
-        Debug.Log(message.receiverName + ": " + message.value);
-    }
-  */
   public class FloatMessage {
     public string receiverName;
     public float value;
@@ -102,8 +83,8 @@ public class Hv_pdint1_AudioLib : MonoBehaviour {
   }
   public delegate void FloatMessageReceived(FloatMessage message);
   public FloatMessageReceived FloatReceivedCallback;
-  public float freq = 500.0f;
-  public float gain = 0.5f;
+  public static float freq = 220.0f;
+  public static float gain = 0.3f;
 
   // internal state
   private Hv_pdint1_Context _context;
@@ -128,7 +109,7 @@ public class Hv_pdint1_AudioLib : MonoBehaviour {
   public void SetFloatParameter(Hv_pdint1_AudioLib.Parameter param, float x) {
     switch (param) {
       case Parameter.Freq: {
-        x = Mathf.Clamp(x, 100.0f, 2000.0f);
+        x = Mathf.Clamp(x, 0.0f, 2000.0f);
         freq = x;
         break;
       }
@@ -215,7 +196,9 @@ class Hv_pdint1_Context {
   private SendHook _sendHook = null;
 
   [DllImport (_dllName)]
+#pragma warning disable IDE1006 // Naming Styles
   private static extern IntPtr hv_pdint1_new_with_options(double sampleRate, int poolKb, int inQueueKb, int outQueueKb);
+#pragma warning restore IDE1006 // Naming Styles
 
   [DllImport (_dllName)]
   private static extern int hv_processInlineInterleaved(IntPtr ctx,
