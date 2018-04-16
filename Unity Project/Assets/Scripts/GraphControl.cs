@@ -88,7 +88,7 @@ public class GraphControl : MonoBehaviour {
 
     public void createAndInstantiatePoints()
     {
-        Transform parentWave = InstantiatePointsOutline(10f).transform;
+        Transform parentWave = InstantiatePointsOutline((pointSpacing+xPoint.transform.localScale.x)*xLength).transform;
         Vector3 pointVec = new Vector3(parentWave.position.x, parentWave.position.y, parentWave.position.z-(xLength/2));
         for (int i = 0; i < xLength; i++)
         {
@@ -100,11 +100,13 @@ public class GraphControl : MonoBehaviour {
         }
     }
 
-    public GameObject InstantiatePointsOutline(float var)
+    public GameObject InstantiatePointsOutline(float varr)
     {
-        //parameter var is the distance needed to be between each point - ie. how long should the plane be?
-        GameObject planeOutline = (GameObject)Instantiate(testWavePrefab) as GameObject;
         
+        //parameter varr is the distance needed to be between each point - ie. how long should the plane be?
+        GameObject planeOutline = (GameObject)Instantiate(testWavePrefab) as GameObject;
+        //planeOutline.transform.localScale += new Vector3(0f, 0f, varr);
+
         return planeOutline;
     }
 
