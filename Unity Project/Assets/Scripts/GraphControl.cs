@@ -23,13 +23,14 @@ using UnityEngine;
 public class GraphControl : MonoBehaviour {
     
     public float amplitudeFactor; //To increase volume you multiply by value, not used yet.
-    public int xRange = 10; //Array range + numbers of gameObjects on X axis..
+    //public int xRange = 10; //Array range + numbers of gameObjects on X axis..
     //What is the difference between these??
     public int xLength = 10; // Gameobjects to create in Unity
 
-    public int pointSpacing = 1;
+    public float pointSpacing = 0.25f;
         
     public GameObject xPoint;
+    private GameObject testWavePrefab;
 
     List<GameObject> pointsList = new List<GameObject>();
    
@@ -87,24 +88,33 @@ public class GraphControl : MonoBehaviour {
 
     public void createAndInstantiatePoints()
     {
-
-        Vector3 pointVec = new Vector3(0, 0, 0);
+        Transform parentWave = InstantiatePointsOutline((pointSpacing+xPoint.transform.localScale.x)*xLength).transform;
+        Vector3 pointVec = new Vector3(parentWave.position.x, parentWave.position.y, parentWave.position.z-(xLength/2));
         for (int i = 0; i < xLength; i++)
         {
-            //This for loop adds pointsObjects to pointsList 
+            //This for loop adds GameObjects to pointsList 
             //and instantiate the points in world space with each their own values
             
-            pointsList.Add( (GameObject)Instantiate(xPoint, pointVec, Quaternion.identity));
+            pointsList.Add( (GameObject)Instantiate(xPoint, pointVec, Quaternion.identity, parentWave));
             pointVec.z += pointSpacing;
-
         }
+    }
+
+    public GameObject InstantiatePointsOutline(float varr)
+    {
+        
+        //parameter varr is the distance needed to be between each point - ie. how long should the plane be?
+        GameObject planeOutline = (GameObject)Instantiate(testWavePrefab) as GameObject;
+        //planeOutline.transform.localScale += new Vector3(0f, 0f, varr);
+
+        return planeOutline;
     }
 
 
     void Start() 
     {
-        //xPoint = GameObject.Find("xPoint");
         //Debug.Log("Initial Array size: "+ pointsList.Count);
+        testWavePrefab = (GameObject)Resources.Load("testWaveOutline", typeof(GameObject));
 
     }
 
@@ -115,15 +125,9 @@ public class GraphControl : MonoBehaviour {
         if (Input.GetKeyDown("backspace"))
         {
             print("Backspace key was pressed");
-            xLength = xRange;//Come back to why 2 variables are important again?
 
             createAndInstantiatePoints();
-
-            //GraphHolder.SendMessage("createPoints", xLength); //number of points are created according to specified xRange
-            //GameObject[] pointsList = new GameObject[xRange]; //Feed variable here to determine ArraySize
-            //createPoints();
-
-            //Debug.Log("Current Array Size:"+ this.pointsList.Length);
+            
         }
 
         if (Input.GetKeyDown("space"))
