@@ -91,7 +91,7 @@ public class GraphControl : MonoBehaviour {
         Vector3 pointVec = new Vector3(0, 0, 0);
         for (int i = 0; i < xLength; i++)
         {
-            //This for loop adds pointsObjects to pointsList 
+            //This for loop adds GameObjects to pointsList 
             //and instantiate the points in world space with each their own values
             
             pointsList.Add( (GameObject)Instantiate(xPoint, pointVec, Quaternion.identity));
@@ -121,7 +121,7 @@ public class GraphControl : MonoBehaviour {
 
             //GraphHolder.SendMessage("createPoints", xLength); //number of points are created according to specified xRange
             //GameObject[] pointsList = new GameObject[xRange]; //Feed variable here to determine ArraySize
-            //createPoints();
+           
 
             //Debug.Log("Current Array Size:"+ this.pointsList.Length);
         }
