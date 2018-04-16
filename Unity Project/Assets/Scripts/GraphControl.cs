@@ -56,7 +56,7 @@ public class GraphControl : MonoBehaviour {
             {
                 
                 temp = pointsList[i].transform.position;
-                temp.y *= (Random.Range(-1.0f, 1.0f)); //access and change y value
+                temp.y +=1 * (Random.Range(-1.0f, 1.0f)); //access and change y value
                 pointsList[i].transform.position = temp;
 
             }
@@ -64,7 +64,6 @@ public class GraphControl : MonoBehaviour {
             Debug.Log("obj is null");
         }
     }
-        //createAndInstantiatePoints();
 
         for (int i = 0; i < pointsList.Count; i++) //go through obj's in pointslist
         {
@@ -100,12 +99,16 @@ public class GraphControl : MonoBehaviour {
         }
     }
 
-    public GameObject InstantiatePointsOutline(float varr)
+    public GameObject InstantiatePointsOutline(float planeWidth)
     {
         
         //parameter varr is the distance needed to be between each point - ie. how long should the plane be?
         GameObject planeOutline = (GameObject)Instantiate(testWavePrefab) as GameObject;
-        //planeOutline.transform.localScale += new Vector3(0f, 0f, varr);
+        Vector3 temp = planeOutline.transform.localScale;
+        temp.z = planeWidth * xPoint.transform.position.z;
+        planeOutline.transform.localscale = temp;
+        //+= new Vector3(0f, 0f, planeWidth);
+        //print(planeWidth);
 
         return planeOutline;
     }
