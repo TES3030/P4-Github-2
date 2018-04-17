@@ -25,12 +25,12 @@ public class GraphControl : MonoBehaviour {
     public float amplitudeFactor; //To increase volume you multiply by value, not used yet.
     //public int xRange = 10; //Array range + numbers of gameObjects on X axis..
     //What is the difference between these??
-    public int xLength = 10; // Gameobjects to create in Unity
+    public int xLength; // Gameobjects to create in Unity
 
-    public float pointSpacing = 0.25f;
+    public float pointSpacing = 1f;
         
     public GameObject xPoint;
-    private GameObject testWavePrefab;
+    private GameObject wavePrefab;  
 
     List<GameObject> pointsList = new List<GameObject>();
    
@@ -87,48 +87,49 @@ public class GraphControl : MonoBehaviour {
 
     public void createAndInstantiatePoints()
     {
-        Transform parentWave = InstantiatePointsOutline((pointSpacing+xPoint.transform.localScale.x)*xLength).transform;
-        Vector3 pointVec = new Vector3(parentWave.position.x, parentWave.position.y, parentWave.position.z-(xLength/2));
+        GameObject wavePositionParent = new GameObject();
+        Vector3 tempPos = GameObject.Find("Player").transform.position;
+        tempPos.x -= 10;
+        wavePositionParent.transform.position = tempPos;
+        GameObject waveOutline = (GameObject)Instantiate(wavePrefab, wavePositionParent.transform.position, Quaternion.identity, wavePositionParent.transform) as GameObject;
+        Vector3 pointVec = new Vector3(waveOutline.transform.position.x, waveOutline.transform.position.y, waveOutline.transform.position.z- ((pointSpacing + xPoint.transform.localScale.z) * xLength )/ 2 + pointSpacing);
         for (int i = 0; i < xLength; i++)
         {
             //This for loop adds GameObjects to pointsList 
             //and instantiate the points in world space with each their own values
             
-            pointsList.Add( (GameObject)Instantiate(xPoint, pointVec, Quaternion.identity, parentWave));
+            pointsList.Add( (GameObject)Instantiate(xPoint, pointVec, Quaternion.identity, wavePositionParent.transform));
             pointVec.z += pointSpacing;
         }
+        ScalePointsOutline((pointSpacing + xPoint.transform.localScale.x) * xLength, waveOutline);
     }
 
-    public GameObject InstantiatePointsOutline(float planeWidth)
+    public void ScalePointsOutline(float waveWidth, GameObject wave)
     {
-        
         //parameter varr is the distance needed to be between each point - ie. how long should the plane be?
-        GameObject planeOutline = (GameObject)Instantiate(testWavePrefab) as GameObject;
-        Vector3 temp = planeOutline.transform.localScale;
-        temp.z = planeWidth * xPoint.transform.position.z;
-        planeOutline.transform.localscale = temp;
-        //+= new Vector3(0f, 0f, planeWidth);
-        //print(planeWidth);
+        Vector3 temp = wave.transform.localScale;
+        temp.z = waveWidth /** xPoint.transform.localScale.z*/;
+        temp.y *= 3;
+        wave.transform.localScale = temp;
+        print("planeWidth: "+ pointSpacing + " + " + xPoint.transform.localScale.z + " * " + xLength + " = " + waveWidth);
 
-        return planeOutline;
     }
 
 
     void Start() 
     {
         //Debug.Log("Initial Array size: "+ pointsList.Count);
-        testWavePrefab = (GameObject)Resources.Load("testWaveOutline", typeof(GameObject));
-
+        wavePrefab = (GameObject)Resources.Load("testWaveOutline", typeof(GameObject));
+        
     }
 
-    
+
     void Update()
         {
 
         if (Input.GetKeyDown("backspace"))
         {
             print("Backspace key was pressed");
-
             createAndInstantiatePoints();
             
         }
