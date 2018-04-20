@@ -88,7 +88,6 @@ public class GraphControl : MonoBehaviour {
 
     void Start() 
     {
-        //Debug.Log("Initial Array size: "+ pointsList.Count);
         wavePrefab = (GameObject)Resources.Load("testWaveOutline", typeof(GameObject));//loading the prefab from the resources folder in order to access its values
         
     }
