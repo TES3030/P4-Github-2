@@ -1,20 +1,4 @@
-﻿/*
- * 
- * GraphControl: 
- * Tries to map all points/gameobjects in function curve (time-domain)
- * Manages functions mathematically(?) and the shape of curve (sine, square, triangle etc)
- * 
- * All points (gameobjects) comes from an array. (manual as of now)
- * They are vectors with info on location in 3d-space (x,y,z)
- * X = phase shift of function
- * Y = vertical shift of function
- * Z = n/a - maybe could implement zoom for camera to go closer to curve
- * 
- * 
- * 
- * Future: maybe ArrayList for integrating array values better
- * Comments:
-*/
+﻿
 
 using System.Collections;
 using System.Collections.Generic;
@@ -22,19 +6,17 @@ using UnityEngine;
 
 public class GraphControl : MonoBehaviour {
     
-    public float amplitudeFactor; //To increase volume you multiply by value, not used yet.
-    //public int xRange = 10; //Array range + numbers of gameObjects on X axis..
-    //What is the difference between these??
+    public float amplitudeFactor; //This var is not used atm
     public int xLength; // Gameobjects to create in Unity
 
-    public float pointSpacing = 1f;
+    public float pointSpacing = 1f; //the space in between each point
         
-    public GameObject xPoint;
-    private GameObject wavePrefab;  
+    public GameObject xPoint; //prefab from which all points are made
+    private GameObject wavePrefab; //prefab form which the waveoutline is made
 
-    List<GameObject> pointsList = new List<GameObject>();
+    List<GameObject> pointsList = new List<GameObject>(); //the list of all points in a curve
    
-
+    //code not needed at the moment (NEVER DELETE CODE)
     /*
     public void PrintInitialValue() //Run on start to print initial values
     {
@@ -46,11 +28,11 @@ public class GraphControl : MonoBehaviour {
     }*/
 
    
-
+    //Code to randomly change points values - only used for developing
     public void randomChange() //Puts in random values across all Gameobjects
     {
-        Vector3 temp;        //pointsList.Clear();
-        for(int i = 0; i<pointsList.Count; i++) //Loop goes through each object of array and change Y value with random factor
+        Vector3 temp;      
+        for(int i = 0; i<pointsList.Count; i++) //Loop goes through each object of list and change Y value with random factor
         {
             if (pointsList[i] != null)
             {
@@ -72,43 +54,31 @@ public class GraphControl : MonoBehaviour {
         }
     }
 
-    /*
-    public void graphSize(int Size, ref GameObject[] Group) //First argument is the array size you want, 2. is the array that you want to pass into it to change
-    {
-        GameObject[] temp = new GameObject[Size];
-        for(int c=0; c<Mathf.Min(Size, Group.Length); c++)
-        {
-            temp[c] = Group[c]; //temp variable to store array values
-        }
-        Group = temp; //Back to group which is send back into main
-
-    }
-    */
-
+    //fucntion that creates points for the lsit and instantiates them
     public void createAndInstantiatePoints()
     {
-        GameObject wavePositionParent = new GameObject();
-        Vector3 tempPos = GameObject.Find("Player").transform.position;
-        tempPos.x -= 10;
-        wavePositionParent.transform.position = tempPos;
-        GameObject waveOutline = (GameObject)Instantiate(wavePrefab, wavePositionParent.transform.position, Quaternion.identity, wavePositionParent.transform) as GameObject;
-        Vector3 pointVec = new Vector3(waveOutline.transform.position.x, waveOutline.transform.position.y, waveOutline.transform.position.z- ((pointSpacing + xPoint.transform.localScale.z) * xLength )/ 2 + pointSpacing);
-        for (int i = 0; i < xLength; i++)
+        GameObject wavePositionParent = new GameObject();//the empty game object containing the position of the curve/wave
+        Vector3 tempPlayerPos = GameObject.Find("Player").transform.position;//the position of the player in order to spawn curve in fornt of player
+        tempPos.x -= 10; //offsetting curve to be 10 units in x in front
+        wavePositionParent.transform.position = tempPlayerPos; //changing the position of curve/wave
+        GameObject waveOutline = (GameObject)Instantiate(wavePrefab, wavePositionParent.transform.position, Quaternion.identity, wavePositionParent.transform) as GameObject;//instantiating the pink outline arround points
+        Vector3 pointVec = new Vector3(waveOutline.transform.position.x, waveOutline.transform.position.y, waveOutline.transform.position.z- ((pointSpacing + xPoint.transform.localScale.z) * xLength )/ 2 + pointSpacing);//creating vector of the points created in the for loop below
+        for (int i = 0; i < xLength; i++)//for loop instantiating points and adding them to the list
         {
             //This for loop adds GameObjects to pointsList 
             //and instantiate the points in world space with each their own values
             
-            pointsList.Add( (GameObject)Instantiate(xPoint, pointVec, Quaternion.identity, wavePositionParent.transform));
+            pointsList.Add( (GameObject)Instantiate(xPoint, pointVec, Quaternion.identity, wavePositionParent.transform));//adding and instantiating points from the xPoint prefab, setting "waveOutline" as parent
             pointVec.z += pointSpacing;
         }
         ScalePointsOutline((pointSpacing + xPoint.transform.localScale.x) * xLength, waveOutline);
     }
 
-    public void ScalePointsOutline(float waveWidth, GameObject wave)
+    public void ScalePointsOutline(float waveWidth, GameObject wave)//functions that scales the waveoutline 
     {
-        //parameter varr is the distance needed to be between each point - ie. how long should the plane be?
+        //parameter waveWidth is the distance needed to be between each point - ie. how long should the plane be?
         Vector3 temp = wave.transform.localScale;
-        temp.z = waveWidth /** xPoint.transform.localScale.z*/;
+        temp.z = waveWidth;
         temp.y *= 3;
         wave.transform.localScale = temp;
         print("planeWidth: "+ pointSpacing + " + " + xPoint.transform.localScale.z + " * " + xLength + " = " + waveWidth);
@@ -119,13 +89,14 @@ public class GraphControl : MonoBehaviour {
     void Start() 
     {
         //Debug.Log("Initial Array size: "+ pointsList.Count);
-        wavePrefab = (GameObject)Resources.Load("testWaveOutline", typeof(GameObject));
+        wavePrefab = (GameObject)Resources.Load("testWaveOutline", typeof(GameObject));//loading the prefab from the resources folder in order to access its values
         
     }
 
 
     void Update()
         {
+        
 
         if (Input.GetKeyDown("backspace"))
         {
