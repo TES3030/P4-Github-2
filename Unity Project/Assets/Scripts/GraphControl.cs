@@ -38,7 +38,7 @@ public class GraphControl : MonoBehaviour {
             {
                 
                 temp = pointsList[i].transform.position;
-                temp.y +=1 * (Random.Range(-1.0f, 1.0f)); //access and change y value
+                temp.y *= (Random.Range(-1.0f, 1.0f)); //access and change y value
                 pointsList[i].transform.position = temp;
 
             }
@@ -57,20 +57,22 @@ public class GraphControl : MonoBehaviour {
     //fucntion that creates points for the lsit and instantiates them
     public void createAndInstantiatePoints()
     {
-        GameObject wavePositionParent = new GameObject();//the empty game object containing the position of the curve/wave
-        Vector3 tempPlayerPos = GameObject.Find("Player").transform.position;//the position of the player in order to spawn curve in fornt of player
-        tempPos.x -= 10; //offsetting curve to be 10 units in x in front
-        wavePositionParent.transform.position = tempPlayerPos; //changing the position of curve/wave
-        GameObject waveOutline = (GameObject)Instantiate(wavePrefab, wavePositionParent.transform.position, Quaternion.identity, wavePositionParent.transform) as GameObject;//instantiating the pink outline arround points
-        Vector3 pointVec = new Vector3(waveOutline.transform.position.x, waveOutline.transform.position.y, waveOutline.transform.position.z- ((pointSpacing + xPoint.transform.localScale.z) * xLength )/ 2 + pointSpacing);//creating vector of the points created in the for loop below
+        GameObject wavePositionParent = new GameObject("WavePosition");//the empty game object containing the position of the curve/wave
+        wavePositionParent.transform.rotation = Quaternion.Euler(0,90,0);
+        //Vector3 tempPlayerPos = GameObject.Find("Player").transform.localPosition;//the position of the player in order to spawn curve in fornt of player
+        //tempPlayerPos.x -= 10; //offsetting curve to be 10 units in x in front
+        //wavePositionParent.transform.localPosition = tempPlayerPos; //changing the position of curve/wave
+        GameObject waveOutline = (GameObject)Instantiate(wavePrefab, wavePositionParent.transform.localPosition, wavePositionParent.transform.localRotation, wavePositionParent.transform) as GameObject;//instantiating the pink outline arround points
+
+        //Vector3 pointVec = new Vector3(waveOutline.transform.localPosition.x, waveOutline.transform.localPosition.y, waveOutline.transform.localPosition.z- ((pointSpacing + xPoint.transform.localScale.z) * (xLength-1) )/ 2 + pointSpacing);//creating vector of the points created in the for loop below
+        Vector3 pointVec = new Vector3();
         for (int i = 0; i < xLength; i++)//for loop instantiating points and adding them to the list
         {
-            //This for loop adds GameObjects to pointsList 
-            //and instantiate the points in world space with each their own values
-            
+            pointVec.x = (i + 0.5f) / 5f - 1f;
+            pointVec.y = pointVec.x;
+            pointVec.z = 0;
             pointsList.Add( (GameObject)Instantiate(xPoint, pointVec, Quaternion.identity, wavePositionParent.transform));//adding and instantiating points from the xPoint prefab, setting "waveOutline" as parent
-            pointVec.z += pointSpacing;
-        }
+            }
         ScalePointsOutline((pointSpacing + xPoint.transform.localScale.x) * xLength, waveOutline);
     }
 
@@ -96,7 +98,6 @@ public class GraphControl : MonoBehaviour {
     void Update()
         {
         
-
         if (Input.GetKeyDown("backspace"))
         {
             print("Backspace key was pressed");
