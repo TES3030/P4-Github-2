@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class GraphControl : MonoBehaviour
 {
-    public Presets presets;
+    Presets presets = new Presets();
 
     [Range(10, 100)] //this makes the int a slider in the inspector
     public int xLength = 10; // Gameobjects to create in Unity
@@ -15,7 +15,8 @@ public class GraphControl : MonoBehaviour
 
     public GameObject xPoint; //prefab from which all points are made
     private GameObject wavePrefab; //prefab form which the waveoutline is made
-    public GameObject graphHolder;
+    public float amplitude = 1;
+    public float frequency = 2;
 
     public int curvePreset = 0;
 
@@ -81,13 +82,13 @@ public class GraphControl : MonoBehaviour
             switch(curvePreset)
             {
                 case 1:
-                    pointVec.y = presets.squareWave(pointVec.x);
+                    pointVec.y = presets.squareWave(pointVec.x,frequency,amplitude);
                     break;
                 case 2:
-                    pointVec.y = presets.sawTooth(pointVec.x);
+                    pointVec.y = presets.sawTooth(pointVec.x, frequency, amplitude);
                     break;
                 default:
-                    pointVec.y = presets.sine(pointVec.x);
+                    pointVec.y = presets.sine(pointVec.x, frequency, amplitude);
                     break;
             }
             //pointVec.y = pointVec.x * pointVec.x;//change this to change y of cubes
@@ -190,17 +191,17 @@ public class GraphControl : MonoBehaviour
             {
                 //If we use localPosition in this loop it fucks up... I have no idea why, i'll look into it at some point (tobi)
                 Vector3 position = pointsList[i].transform.position;
-                position.y = position.y = presets.sawTooth(position.x + Time.time);
+                //position.y = position.y = presets.sawTooth(position.x + Time.time, frequency, amplitude);
                 switch (curvePreset)
                 {
                     case 1:
-                        position.y = presets.squareWave(position.x + Time.time);
+                        position.y = presets.squareWave(position.x + Time.time, frequency, amplitude);
                         break;
                     case 2:
-                        position.y = presets.sawTooth(position.x + Time.time);
+                        position.y = presets.sawTooth(position.x + Time.time, frequency, amplitude);
                         break;
                     default:
-                        position.y = presets.sine(position.x + Time.time);
+                        position.y = presets.sine(position.x + Time.time, frequency, amplitude);
                         break;
                 }
                 pointsList[i].transform.position = position;
