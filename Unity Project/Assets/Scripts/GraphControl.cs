@@ -61,29 +61,27 @@ public class GraphControl : MonoBehaviour {
         GameObject wavePositionParent = new GameObject("WavePosition");//the empty game object containing the position of the curve/wave
         wavePositionParent.transform.rotation = Quaternion.Euler(0,90,0);
         wavePositionParent.transform.position = new Vector3(0, 0, 0.2f);
-        //Vector3 tempPlayerPos = GameObject.Find("Player").transform.localPosition;//the position of the player in order to spawn curve in fornt of player
-        //tempPlayerPos.x -= 10; //offsetting curve to be 10 units in x in front
-        //wavePositionParent.transform.localPosition = tempPlayerPos; //changing the position of curve/wave
         GameObject waveOutline = (GameObject)Instantiate(wavePrefab, wavePositionParent.transform.localPosition, wavePositionParent.transform.localRotation, wavePositionParent.transform) as GameObject;//instantiating the pink outline arround points
         
-        float step = 2f / xLength *10;
-        Vector3 scale = Vector3.one * step; 
-        Vector3 pointVec;
-        pointVec.z = 0;
-        for (int i = 0; i < xLength; i++)//for loop instantiating points and adding them to the list
+        float step = 2f / xLength;
+        Vector3 scale = Vector3.one * step;//all cube points are instantiated between -1 and 1
+        Vector3 pointVec;//vector needed for the loop
+        pointVec.z = 0;//z is not needed
+        for (int i = 0; i < xLength; i++)//for-loop instantiating points and adding points to the gameobject points list
         {
             GameObject point;
             pointsList.Add(point = (GameObject)Instantiate(xPoint, wavePositionParent.transform.localPosition, Quaternion.Euler(0,90,0)) as GameObject);
-            //adding and instantiating points from the xPoint prefab, setting "waveOutline" as parent
-            pointVec.x = (i + 0.5f) / step - 1f;
-            pointVec.y = pointVec.x;
-            pointVec.z = 0;
+            //adding and instantiating points from the xPoint prefab at 90 degrees so it advances along the pink outline
+            pointVec.x = (i + 0.5f) * step - 1f;//change this to change x of cubes
+            pointVec.y = pointVec.x * pointVec.x;//change this to change y of cubes
             point.transform.localPosition = pointVec;
             point.transform.localScale = scale;
             point.transform.SetParent(wavePositionParent.transform, true);
+            //setting the parent at the end, and stating "true" in order to let the points keep their values
 
         }
-        ScalePointsOutline((pointSpacing + xPoint.transform.localScale.x) * xLength, waveOutline);
+        //ScalePointsOutline((pointSpacing + xPoint.transform.localScale.x) * xLength, waveOutline);
+        //keeping the above function here but might not be needed in the future
     }
 
     public void ScalePointsOutline(float waveWidth, GameObject wave)//functions that scales the waveoutline 
@@ -94,7 +92,7 @@ public class GraphControl : MonoBehaviour {
         //temp.y *= 3;
         //wave.transform.localScale = temp;
         //wave.transform.localScale = scale;
-        print("planeWidth: "+ pointSpacing + " + " + xPoint.transform.localScale.z + " * " + xLength + " = " + waveWidth);
+        //print("planeWidth: "+ pointSpacing + " + " + xPoint.transform.localScale.z + " * " + xLength + " = " + waveWidth);
 
     }
 
