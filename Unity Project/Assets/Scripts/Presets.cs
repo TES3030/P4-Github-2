@@ -24,7 +24,7 @@ public class Presets : MonoBehaviour {
 
     public float sawTooth(float xVal)
     {
-        yVal = amplitude * ((xVal)/(1/frequency)- Mathf.Floor((xVal)/(1/frequency)));
+        yVal = amplitude * 2f * ((xVal/((2f * Mathf.PI)/frequency))-Mathf.Floor(xVal / ((2f * Mathf.PI) / frequency))-0.5f);
         return yVal;
     }
 

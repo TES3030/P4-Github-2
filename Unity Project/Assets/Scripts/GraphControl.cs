@@ -83,8 +83,8 @@ public class GraphControl : MonoBehaviour {
             pointVec.x = (i + 0.5f) * step - 1f;//
             //pointVec.y = pointVec.x * pointVec.x;//change this to change y of cubes
             //pointVec.y = presets.squareWave(pointVec.x);
-            //pointVec.y = presets.sawTooth(pointVec.x);
-            pointVec.y = presets.sine(pointVec.x);
+            pointVec.y = presets.sawTooth(pointVec.x);
+            //pointVec.y = presets.sine(pointVec.x);
 
             point.transform.localPosition = pointVec;
             point.transform.localScale = scale;
