@@ -73,8 +73,8 @@ public class GraphControl : MonoBehaviour {
             GameObject point;
             pointsList.Add(point = (GameObject)Instantiate(xPoint, wavePositionParent.transform.localPosition, Quaternion.Euler(0,90,0)) as GameObject);
             //adding and instantiating points from the xPoint prefab at 90 degrees so it advances along the pink outline
-            pointVec.x = (i + 0.5f) * step - 1f;//change this to change x of cubes
-            pointVec.y = pointVec.x * pointVec.x;//change this to change y of cubes
+            pointVec.x = (i + 0.5f) * step - 1f;//dont change this
+            pointVec.y = Mathf.Sin(Mathf.PI * pointVec.x);
             point.transform.localPosition = pointVec;
             point.transform.localScale = scale;
             point.transform.SetParent(wavePositionParent.transform, true);
