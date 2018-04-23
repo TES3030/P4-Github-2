@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amplitudeFactor: 0
-  xLength: 5
+  xLength: 100
   pointSpacing: 1
   xPoint: {fileID: 0}
 --- !u!4 &605023335

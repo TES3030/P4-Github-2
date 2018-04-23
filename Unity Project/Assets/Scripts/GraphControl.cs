@@ -14,6 +14,8 @@ public class GraphControl : MonoBehaviour {
         
     public GameObject xPoint; //prefab from which all points are made
     private GameObject wavePrefab; //prefab form which the waveoutline is made
+    public GameObject graphHolder;
+
 
     List<GameObject> pointsList = new List<GameObject>(); //the list of all points in a curve
 
@@ -62,19 +64,28 @@ public class GraphControl : MonoBehaviour {
         GameObject wavePositionParent = new GameObject("WavePosition");//the empty game object containing the position of the curve/wave
         wavePositionParent.transform.rotation = Quaternion.Euler(0,90,0);
         wavePositionParent.transform.position = new Vector3(0, 0, 0.2f);
+        Presets presets = new Presets();
+
         GameObject waveOutline = (GameObject)Instantiate(wavePrefab, wavePositionParent.transform.localPosition, wavePositionParent.transform.localRotation, wavePositionParent.transform) as GameObject;//instantiating the pink outline arround points
         
         float step = 2f / xLength;
         Vector3 scale = Vector3.one * step;//all cube points are instantiated between -1 and 1
         Vector3 pointVec;//vector needed for the loop
         pointVec.z = 0;//z is not needed
+        pointVec.x = 0;
+        pointVec.y = 0;
+
         for (int i = 0; i < xLength; i++)//for-loop instantiating points and adding points to the gameobject points list
         {
             GameObject point;
             pointsList.Add(point = (GameObject)Instantiate(xPoint, wavePositionParent.transform.localPosition, Quaternion.Euler(0,90,0)) as GameObject);
             //adding and instantiating points from the xPoint prefab at 90 degrees so it advances along the pink outline
-            pointVec.x = (i + 0.5f) * step - 1f;//change this to change x of cubes
-            pointVec.y = pointVec.x * pointVec.x;//change this to change y of cubes
+            pointVec.x = (i + 0.5f) * step - 1f;//
+            //pointVec.y = pointVec.x * pointVec.x;//change this to change y of cubes
+            //pointVec.y = presets.squareWave(pointVec.x);
+            //pointVec.y = presets.sawTooth(pointVec.x);
+            pointVec.y = presets.sine(pointVec.x);
+
             point.transform.localPosition = pointVec;
             point.transform.localScale = scale;
             point.transform.SetParent(wavePositionParent.transform, true);
