@@ -303,6 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e6ce6e53f98d66479974d1534c3c465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   xLength: 100
   isCurveAnimated: 1
   isCurveLined: 1
@@ -310,6 +311,13 @@ MonoBehaviour:
   graphHolder: {fileID: 0}
   c1: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   c2: {r: 1, g: 0, b: 0, a: 1}
+=======
+  amplitudeFactor: 0
+  xLength: 100
+  pointSpacing: 0.5
+  xPoint: {fileID: 1507095926771302, guid: 4cd33bf820f1b674a895cba10993e299, type: 2}
+  graphHolder: {fileID: 0}
+>>>>>>> Mari
 --- !u!4 &486701184
 Transform:
   m_ObjectHideFlags: 0
