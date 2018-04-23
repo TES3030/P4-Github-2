@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class GraphControl : MonoBehaviour
 {
-    Presets presets = new Presets();
+    public Presets presets;
 
     [Range(10, 100)] //this makes the int a slider in the inspector
     public int xLength = 10; // Gameobjects to create in Unity
@@ -68,7 +68,6 @@ public class GraphControl : MonoBehaviour
         Vector3 scale = Vector3.one * step;//all cube points are instantiated between -1 and 1
         Vector3 pointVec;//vector needed for the loop
         pointVec.z = 0;//z is not needed
-
         pointVec.y = 0;
 
         for (int i = 0; i < xLength; i++)//for-loop instantiating points and adding points to the gameobject points list
