@@ -58,15 +58,7 @@ public class GraphControl : MonoBehaviour {
     //fucntion that creates points for the lsit and instantiates them
     public void createAndInstantiatePoints()
     {
-<<<<<<< HEAD
-        GameObject wavePositionParent = new GameObject();//the empty game object containing the position of the curve/wave
-        Vector3 tempPlayerPos = GameObject.Find("Player").transform.position;//the position of the player in order to spawn curve in fornt of player
-        tempPlayerPos.x -= 10; //offsetting curve to be 10 units in x in front
-        wavePositionParent.transform.position = tempPlayerPos; //changing the position of curve/wave
-        GameObject waveOutline = (GameObject)Instantiate(wavePrefab, wavePositionParent.transform.position, Quaternion.identity, wavePositionParent.transform) as GameObject;//instantiating the pink outline arround points
-        Vector3 pointVec = new Vector3(waveOutline.transform.position.x, waveOutline.transform.position.y, waveOutline.transform.position.z- ((pointSpacing + xPoint.transform.localScale.z) * xLength )/ 2 + pointSpacing);//creating vector of the points created in the for loop below
-        for (int i = 0; i < xLength; i++)//for loop instantiating points and adding them to the list
-=======
+
         GameObject wavePositionParent = new GameObject("WavePosition");//the empty game object containing the position of the curve/wave
         wavePositionParent.transform.rotation = Quaternion.Euler(0,90,0);
         wavePositionParent.transform.position = new Vector3(0, 0, 0.2f);
@@ -77,7 +69,6 @@ public class GraphControl : MonoBehaviour {
         Vector3 pointVec;//vector needed for the loop
         pointVec.z = 0;//z is not needed
         for (int i = 0; i < xLength; i++)//for-loop instantiating points and adding points to the gameobject points list
->>>>>>> tobi3
         {
             GameObject point;
             pointsList.Add(point = (GameObject)Instantiate(xPoint, wavePositionParent.transform.localPosition, Quaternion.Euler(0,90,0)) as GameObject);
