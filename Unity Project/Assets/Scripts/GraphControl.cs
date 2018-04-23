@@ -59,7 +59,7 @@ public class GraphControl : MonoBehaviour {
     {
         GameObject wavePositionParent = new GameObject();//the empty game object containing the position of the curve/wave
         Vector3 tempPlayerPos = GameObject.Find("Player").transform.position;//the position of the player in order to spawn curve in fornt of player
-        tempPos.x -= 10; //offsetting curve to be 10 units in x in front
+        tempPlayerPos.x -= 10; //offsetting curve to be 10 units in x in front
         wavePositionParent.transform.position = tempPlayerPos; //changing the position of curve/wave
         GameObject waveOutline = (GameObject)Instantiate(wavePrefab, wavePositionParent.transform.position, Quaternion.identity, wavePositionParent.transform) as GameObject;//instantiating the pink outline arround points
         Vector3 pointVec = new Vector3(waveOutline.transform.position.x, waveOutline.transform.position.y, waveOutline.transform.position.z- ((pointSpacing + xPoint.transform.localScale.z) * xLength )/ 2 + pointSpacing);//creating vector of the points created in the for loop below

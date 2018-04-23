@@ -1,0 +1,15 @@
+﻿<Properties StartupConfiguration="{907B5920-0084-E793-56BB-B0CD340359AA}|">
+  <MonoDevelop.Ide.ItemProperties.Unity_220Project PreferredExecutionTarget="Unity.Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Presets.cs">
+    <Files>
+      <File FileName="Assets/Scripts/GraphControl.cs" Line="59" Column="6" />
+      <File FileName="Assets/Scripts/Presets.cs" Line="37" Column="10" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
