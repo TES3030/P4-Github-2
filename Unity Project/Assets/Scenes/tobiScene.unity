@@ -304,9 +304,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amplitudeFactor: 0
-  xLength: 50
+  xLength: 100
   pointSpacing: 0.5
   xPoint: {fileID: 1507095926771302, guid: 4cd33bf820f1b674a895cba10993e299, type: 2}
+  graphHolder: {fileID: 0}
 --- !u!4 &486701184
 Transform:
   m_ObjectHideFlags: 0
