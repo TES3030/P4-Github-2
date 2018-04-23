@@ -10,25 +10,16 @@ public class GraphControl : MonoBehaviour
     [Range(10, 100)] //this makes the int a slider in the inspector
     public int xLength = 10; // Gameobjects to create in Unity
     public bool isCurveAnimated = false;
-
-
-    //public float pointSpacing = 1f; //the space in between each point
+    public bool isCurveLined = false;
 
     public GameObject xPoint; //prefab from which all points are made
     private GameObject wavePrefab; //prefab form which the waveoutline is made
 
     List<GameObject> pointsList = new List<GameObject>(); //the list of all points in a curve
 
-    //code not needed at the moment (NEVER DELETE CODE)
-    /*
-    public void PrintInitialValue() //Run on start to print initial values
-    {
-             foreach (GameObject value in graphObjects) //how does this work?
-            {
-                print(graphObjects[vectorPrint].transform.position); //Print position of object in vector3
-            vectorPrint++; //to itterate through objects in array
-            }
-    }*/
+    //LineRenderer??
+    public Color c1 = Color.yellow;
+    public Color c2 = Color.red;
 
 
     //Code to randomly change points values - only used for developing
@@ -85,8 +76,7 @@ public class GraphControl : MonoBehaviour
             //setting the parent at the end, and stating "true" in order to let the points keep their values
 
         }
-        //ScalePointsOutline((pointSpacing + xPoint.transform.localScale.x) * xLength, waveOutline);
-        //keeping the above function here but might not be needed in the future
+        
     }
 
     public void ScalePointsOutline(float waveWidth, GameObject wave)//functions that scales the waveoutline 
@@ -105,8 +95,22 @@ public class GraphControl : MonoBehaviour
     void Start()
     {
         wavePrefab = (GameObject)Resources.Load("testWaveOutline", typeof(GameObject));//loading the prefab from the resources folder in order to access its values
-        //step = 2f / xLength;
-        //scale = Vector3.one * step;
+                                                                                     
+
+        //LineRenderer creation
+        LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
+        lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+        lineRenderer.widthMultiplier = 0.1f;
+        lineRenderer.positionCount = xLength;
+
+        // A simple 2 color gradient with a fixed alpha of 1.0f.
+        float alpha = 1.0f;
+        Gradient gradient = new Gradient();
+        gradient.SetKeys(
+            new GradientColorKey[] { new GradientColorKey(c1, 0.0f), new GradientColorKey(c2, 1.0f) },
+            new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
+            );
+        lineRenderer.colorGradient = gradient;
     }
 
 
@@ -117,7 +121,6 @@ public class GraphControl : MonoBehaviour
         {
             print("Backspace key was pressed");
             createAndInstantiatePoints();
-
         }
 
         if (Input.GetKeyDown("space"))
@@ -133,16 +136,43 @@ public class GraphControl : MonoBehaviour
             for (int i = 0; i < pointsList.Count; i++) { print(" pos of number " + i + " of the list: " + pointsList[i].transform.position); }
         }
 
-        //Toggle animation
-        if (isCurveAnimated)
+        if (Input.GetKeyDown("s"))
         {
+            //ScalePointsOutline((pointSpacing + xPoint.transform.localScale.x) * xLength, waveOutline);
+            //keeping the above function here but might not be needed in the future
+
+        }
+
+        //Toggle linerenderer
+        if (isCurveLined)
+        {
+            LineRenderer lineRenderer = GetComponent<LineRenderer>();
+            lineRenderer.positionCount = xLength;
+            Vector3[] pointsVecArray = new Vector3[xLength];
             for (int i = 0; i < pointsList.Count; i++)
             {
-                //using localPosition in this script fucks it up... I have no idea why, i'll look into it at some point (tobi)
+                pointsVecArray[i] = pointsList[i].transform.position;
+            }
+            lineRenderer.SetPositions(pointsVecArray);
+        }
+        else
+        {
+            LineRenderer lineRenderer = GetComponent<LineRenderer>();
+            lineRenderer.positionCount = 0;
+        }
+
+        //Toggle animation of curve
+        if (isCurveAnimated)
+        {
+            
+            for (int i = 0; i < pointsList.Count; i++)
+            {
+                //If we use localPosition in this loop it fucks up... I have no idea why, i'll look into it at some point (tobi)
                 Vector3 position = pointsList[i].transform.position;
                 position.y = Mathf.Sin(Mathf.PI * (position.x + Time.time));
                 pointsList[i].transform.position = position;
             }
+            
         }
     }
 }
