@@ -15,6 +15,8 @@ public class GraphControl : MonoBehaviour {
     public GameObject xPoint; //prefab from which all points are made
     private GameObject wavePrefab; //prefab form which the waveoutline is made
     public GameObject graphHolder;
+    public float amplitude = 1;
+    public float frequency = 2;
 
 
     List<GameObject> pointsList = new List<GameObject>(); //the list of all points in a curve
@@ -82,9 +84,9 @@ public class GraphControl : MonoBehaviour {
             //adding and instantiating points from the xPoint prefab at 90 degrees so it advances along the pink outline
             pointVec.x = (i + 0.5f) * step - 1f;//
             //pointVec.y = pointVec.x * pointVec.x;//change this to change y of cubes
-            //pointVec.y = presets.squareWave(pointVec.x);
-            pointVec.y = presets.sawTooth(pointVec.x);
-            //pointVec.y = presets.sine(pointVec.x);
+            //pointVec.y = presets.squareWave(pointVec.x, frequency, amplitude);
+            pointVec.y = presets.sawTooth(pointVec.x, frequency, amplitude);
+            //pointVec.y = presets.sine(pointVec.x, frequency, amplitude);
 
             point.transform.localPosition = pointVec;
             point.transform.localScale = scale;
