@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GraphControl : MonoBehaviour
 {
+    Presets presets = new Presets();
 
     [Range(10, 100)] //this makes the int a slider in the inspector
     public int xLength = 10; // Gameobjects to create in Unity
@@ -14,10 +15,13 @@ public class GraphControl : MonoBehaviour
 
     public GameObject xPoint; //prefab from which all points are made
     private GameObject wavePrefab; //prefab form which the waveoutline is made
+    public GameObject graphHolder;
+
+    public int curvePreset = 0;
 
     List<GameObject> pointsList = new List<GameObject>(); //the list of all points in a curve
 
-    //LineRenderer??
+    //LineRenderer colors
     public Color c1 = Color.yellow;
     public Color c2 = Color.red;
 
@@ -56,27 +60,45 @@ public class GraphControl : MonoBehaviour
         GameObject wavePositionParent = new GameObject("WavePosition");//the empty game object containing the position of the curve/wave
         wavePositionParent.transform.rotation = Quaternion.Euler(0, 90, 0);
         wavePositionParent.transform.position = new Vector3(0, 0, 0.2f);
+        
+
         GameObject waveOutline = (GameObject)Instantiate(wavePrefab, wavePositionParent.transform.localPosition, wavePositionParent.transform.localRotation, wavePositionParent.transform) as GameObject;//instantiating the pink outline arround points
 
         float step = 2f / xLength;
         Vector3 scale = Vector3.one * step;//all cube points are instantiated between -1 and 1
         Vector3 pointVec;//vector needed for the loop
         pointVec.z = 0;//z is not needed
+
         pointVec.y = 0;
+
         for (int i = 0; i < xLength; i++)//for-loop instantiating points and adding points to the gameobject points list
         {
             GameObject point;//this is only for reference
             pointsList.Add(point = (GameObject)Instantiate(xPoint, wavePositionParent.transform.localPosition, Quaternion.Euler(0, 90, 0)) as GameObject);
             //adding and instantiating points from the xPoint prefab at 90 degrees so it advances along the pink outline
-            pointVec.x = (i + 0.5f) * step - 1f;//dont change this
-            pointVec.y = Mathf.Sin(Mathf.PI * pointVec.x);
+
+            pointVec.x = (i + 0.5f) * step - 1f;//
+
+            switch(curvePreset)
+            {
+                case 1:
+                    pointVec.y = presets.squareWave(pointVec.x);
+                    break;
+                case 2:
+                    pointVec.y = presets.sawTooth(pointVec.x);
+                    break;
+                default:
+                    pointVec.y = presets.sine(pointVec.x);
+                    break;
+            }
+            //pointVec.y = pointVec.x * pointVec.x;//change this to change y of cubes
+           
             point.transform.localPosition = pointVec;
             point.transform.localScale = scale;
             point.transform.SetParent(wavePositionParent.transform, true);
             //setting the parent at the end, and stating "true" in order to let the points keep their values
 
-        }
-        
+        }   
     }
 
     public void ScalePointsOutline(float waveWidth, GameObject wave)//functions that scales the waveoutline 
@@ -169,7 +191,19 @@ public class GraphControl : MonoBehaviour
             {
                 //If we use localPosition in this loop it fucks up... I have no idea why, i'll look into it at some point (tobi)
                 Vector3 position = pointsList[i].transform.position;
-                position.y = Mathf.Sin(Mathf.PI * (position.x + Time.time));
+                position.y = position.y = presets.sawTooth(position.x + Time.time);
+                switch (curvePreset)
+                {
+                    case 1:
+                        position.y = presets.squareWave(position.x + Time.time);
+                        break;
+                    case 2:
+                        position.y = presets.sawTooth(position.x + Time.time);
+                        break;
+                    default:
+                        position.y = presets.sine(position.x + Time.time);
+                        break;
+                }
                 pointsList[i].transform.position = position;
             }
             
