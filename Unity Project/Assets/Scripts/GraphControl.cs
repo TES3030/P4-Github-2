@@ -12,7 +12,7 @@ public class GraphControl : MonoBehaviour
     public int xLength = 10; // Gameobjects to create in Unity
     public bool isCurveAnimated = false;
     public bool isCurveLined = false;
-
+    public bool isCurveDotted = false;
     public GameObject xPoint; //prefab from which all points are made
     private GameObject wavePrefab; //prefab form which the waveoutline is made
     public float amplitude = 1;
@@ -182,6 +182,34 @@ public class GraphControl : MonoBehaviour
             LineRenderer lineRenderer = GetComponent<LineRenderer>();
             lineRenderer.positionCount = 0;
         }
+
+
+        //Toggle GameObject Mesh
+        if (isCurveDotted)
+        {
+            MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+           
+         
+            for (int i = 0; i < pointsList.Count; i++)
+            {
+                pointsList[i].gameObject.GetComponent<MeshRenderer>().enabled = false;
+           
+            }
+            
+        } else
+        {
+            for (int i = 0; i < pointsList.Count; i++)
+            {
+                pointsList[i].gameObject.GetComponent<MeshRenderer>().enabled = true;
+            }
+        }
+        
+
+
+
+
+
+
 
         //Toggle animation of curve
         if (isCurveAnimated)
