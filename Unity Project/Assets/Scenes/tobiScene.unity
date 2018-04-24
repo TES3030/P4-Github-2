@@ -467,8 +467,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc131a9c471a24bec8e0d5d8a0fed3f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amplitude: 1
-  frequency: 2
   time: 0
 --- !u!114 &1846174995
 MonoBehaviour:
@@ -482,12 +480,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e6ce6e53f98d66479974d1534c3c465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  presets: {fileID: 0}
-  xLength: 50
+  xLength: 80
   isCurveAnimated: 1
-  isCurveLined: 1
+  isCurveLined: 0
   xPoint: {fileID: 1507095926771302, guid: 4cd33bf820f1b674a895cba10993e299, type: 2}
-  graphHolder: {fileID: 0}
+  amplitude: 1
+  frequency: 2
   curvePreset: 0
   c1: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   c2: {r: 1, g: 0, b: 0, a: 1}
