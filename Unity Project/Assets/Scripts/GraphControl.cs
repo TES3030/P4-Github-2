@@ -12,14 +12,13 @@ public class GraphControl : MonoBehaviour
     public int xLength = 10; // Gameobjects to create in Unity
     public bool isCurveAnimated = false;
     public bool isCurveLined = false;
-<<<<<<< HEAD
+
     public bool isLowFreqMode = true; // boolean to determine lowfreqmode
+
+    public bool isCurveDotted = false;
 
     public float lowFreqScaleFactor = 10; // float to determine scalefactor between lowfreqmode and highfreqmode
 
-=======
-    public bool isCurveDotted = false;
->>>>>>> master
     public GameObject xPoint; //prefab from which all points are made
     private GameObject wavePrefab; //prefab form which the waveoutline is made
     public float amplitude; // initialize amplitude
@@ -204,7 +203,7 @@ public class GraphControl : MonoBehaviour
 
 
         //Toggle GameObject Mesh
-        if (isCurveDotted)
+        if (!isCurveDotted)
         {
             MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
            
