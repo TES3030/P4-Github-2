@@ -12,11 +12,17 @@ public class GraphControl : MonoBehaviour
     public int xLength = 10; // Gameobjects to create in Unity
     public bool isCurveAnimated = false;
     public bool isCurveLined = false;
+
+    public bool isLowFreqMode = true; // boolean to determine lowfreqmode
+
     public bool isCurveDotted = false;
+
+    public float lowFreqScaleFactor = 10; // float to determine scalefactor between lowfreqmode and highfreqmode
+
     public GameObject xPoint; //prefab from which all points are made
     private GameObject wavePrefab; //prefab form which the waveoutline is made
-    public float amplitude = 1;
-    public float frequency = 2;
+    public float amplitude; // initialize amplitude
+    public float frequency; // initialize frequency
 
     public int curvePreset = 0;
 
@@ -139,6 +145,18 @@ public class GraphControl : MonoBehaviour
     void Update()
     {
 
+        amplitude = Hv_pdint1_AudioLib.gain;
+
+        if (isLowFreqMode) // if isLowFreqMode == true, scale the frequency down by the lowFreqScaleFactor
+        {
+            frequency = Hv_pdint1_AudioLib.freq/ lowFreqScaleFactor;
+        }
+
+        if (!isLowFreqMode) // if isLowFreqMode == false, do not scale the frequency down
+        {
+            frequency = Hv_pdint1_AudioLib.freq;
+        }
+
         if (Input.GetKeyDown("backspace"))
         {
             print("Backspace key was pressed");
@@ -185,7 +203,7 @@ public class GraphControl : MonoBehaviour
 
 
         //Toggle GameObject Mesh
-        if (isCurveDotted)
+        if (!isCurveDotted)
         {
             MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
            
