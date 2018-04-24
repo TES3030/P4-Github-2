@@ -15,8 +15,8 @@ public class GraphControl : MonoBehaviour
 
     public GameObject xPoint; //prefab from which all points are made
     private GameObject wavePrefab; //prefab form which the waveoutline is made
-    public float amplitude = 1;
-    public float frequency = 2;
+    public float amplitude; 
+    public float frequency; 
 
     public int curvePreset = 0;
 
@@ -138,6 +138,9 @@ public class GraphControl : MonoBehaviour
 
     void Update()
     {
+
+        amplitude = Hv_pdint1_AudioLib.gain;
+        frequency = Hv_pdint1_AudioLib.freq;
 
         if (Input.GetKeyDown("backspace"))
         {
