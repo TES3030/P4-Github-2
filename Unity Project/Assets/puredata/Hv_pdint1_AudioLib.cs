@@ -41,7 +41,7 @@ public class Hv_pdint1_Editor : Editor {
     // freq
     GUILayout.BeginHorizontal();
     float freq = _dsp.GetFloatParameter(Hv_pdint1_AudioLib.Parameter.Freq);
-    float newFreq = EditorGUILayout.Slider("freq", freq, 0.0f, 200.0f);
+    float newFreq = EditorGUILayout.Slider("freq", freq, 0.0f, 5000.0f);
     if (freq != newFreq) {
       _dsp.SetFloatParameter(Hv_pdint1_AudioLib.Parameter.Freq, newFreq);
     }
