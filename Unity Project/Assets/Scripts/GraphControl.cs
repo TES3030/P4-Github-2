@@ -6,33 +6,31 @@ using UnityEngine;
 
 public class GraphControl : MonoBehaviour
 {
+    Presets presets = new Presets();
 
     [Range(10, 100)] //this makes the int a slider in the inspector
     public int xLength = 10; // Gameobjects to create in Unity
     public bool isCurveAnimated = false;
+    public bool isCurveLined = false;
 
+    public bool isLowFreqMode = true; // boolean to determine lowfreqmode
 
-    //public float pointSpacing = 1f; //the space in between each point
+    public bool isCurveDotted = false;
+
+    public float lowFreqScaleFactor = 10; // float to determine scalefactor between lowfreqmode and highfreqmode
 
     public GameObject xPoint; //prefab from which all points are made
     private GameObject wavePrefab; //prefab form which the waveoutline is made
-    public GameObject graphHolder;
-    public float amplitude = 1;
-    public float frequency = 2;
+    public float amplitude; // initialize amplitude
+    public float frequency; // initialize frequency
 
+    public int curvePreset = 0;
 
     List<GameObject> pointsList = new List<GameObject>(); //the list of all points in a curve
 
-    //code not needed at the moment (NEVER DELETE CODE)
-    /*
-    public void PrintInitialValue() //Run on start to print initial values
-    {
-             foreach (GameObject value in graphObjects) //how does this work?
-            {
-                print(graphObjects[vectorPrint].transform.position); //Print position of object in vector3
-            vectorPrint++; //to itterate through objects in array
-            }
-    }*/
+    //LineRenderer colors
+    public Color c1 = Color.yellow;
+    public Color c2 = Color.red;
 
 
     //Code to randomly change points values - only used for developing
@@ -69,7 +67,7 @@ public class GraphControl : MonoBehaviour
         GameObject wavePositionParent = new GameObject("WavePosition");//the empty game object containing the position of the curve/wave
         wavePositionParent.transform.rotation = Quaternion.Euler(0, 90, 0);
         wavePositionParent.transform.position = new Vector3(0, 0, 0.2f);
-        Presets presets = new Presets();
+        
 
         GameObject waveOutline = (GameObject)Instantiate(wavePrefab, wavePositionParent.transform.localPosition, wavePositionParent.transform.localRotation, wavePositionParent.transform) as GameObject;//instantiating the pink outline arround points
 
@@ -78,36 +76,56 @@ public class GraphControl : MonoBehaviour
         Vector3 pointVec;//vector needed for the loop
         pointVec.z = 0;//z is not needed
 <<<<<<< HEAD
+<<<<<<< HEAD
         pointVec.x = 0;
         pointVec.y = 0;
 
 =======
         pointVec.y = 0;
 >>>>>>> master
+=======
+        pointVec.y = 0;
+
+>>>>>>> PDIntegration
         for (int i = 0; i < xLength; i++)//for-loop instantiating points and adding points to the gameobject points list
         {
             GameObject point;//this is only for reference
             pointsList.Add(point = (GameObject)Instantiate(xPoint, wavePositionParent.transform.localPosition, Quaternion.Euler(0, 90, 0)) as GameObject);
             //adding and instantiating points from the xPoint prefab at 90 degrees so it advances along the pink outline
 <<<<<<< HEAD
-            pointVec.x = (i + 0.5f) * step - 1f;//
-            //pointVec.y = pointVec.x * pointVec.x;//change this to change y of cubes
-            //pointVec.y = presets.squareWave(pointVec.x, frequency, amplitude);
-            pointVec.y = presets.sawTooth(pointVec.x, frequency, amplitude);
-            //pointVec.y = presets.sine(pointVec.x, frequency, amplitude);
+<<<<<<< HEAD
+=======
 
+>>>>>>> PDIntegration
+            pointVec.x = (i + 0.5f) * step - 1f;//
+
+<<<<<<< HEAD
 =======
             pointVec.x = (i + 0.5f) * step - 1f;//dont change this
             pointVec.y = Mathf.Sin(Mathf.PI * pointVec.x);
 >>>>>>> master
+=======
+            switch(curvePreset)
+            {
+                case 1:
+                    pointVec.y = presets.squareWave(pointVec.x,frequency,amplitude);
+                    break;
+                case 2:
+                    pointVec.y = presets.sawTooth(pointVec.x, frequency, amplitude);
+                    break;
+                default:
+                    pointVec.y = presets.sine(pointVec.x, frequency, amplitude);
+                    break;
+            }
+            //pointVec.y = pointVec.x * pointVec.x;//change this to change y of cubes
+           
+>>>>>>> PDIntegration
             point.transform.localPosition = pointVec;
             point.transform.localScale = scale;
             point.transform.SetParent(wavePositionParent.transform, true);
             //setting the parent at the end, and stating "true" in order to let the points keep their values
 
-        }
-        //ScalePointsOutline((pointSpacing + xPoint.transform.localScale.x) * xLength, waveOutline);
-        //keeping the above function here but might not be needed in the future
+        }   
     }
 
     public void ScalePointsOutline(float waveWidth, GameObject wave)//functions that scales the waveoutline 
@@ -126,19 +144,44 @@ public class GraphControl : MonoBehaviour
     void Start()
     {
         wavePrefab = (GameObject)Resources.Load("testWaveOutline", typeof(GameObject));//loading the prefab from the resources folder in order to access its values
-        //step = 2f / xLength;
-        //scale = Vector3.one * step;
+                                                                                     
+
+        //LineRenderer creation
+        LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
+        lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+        lineRenderer.widthMultiplier = 0.1f;
+        lineRenderer.positionCount = xLength;
+
+        // A simple 2 color gradient with a fixed alpha of 1.0f.
+        float alpha = 1.0f;
+        Gradient gradient = new Gradient();
+        gradient.SetKeys(
+            new GradientColorKey[] { new GradientColorKey(c1, 0.0f), new GradientColorKey(c2, 1.0f) },
+            new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
+            );
+        lineRenderer.colorGradient = gradient;
     }
 
 
     void Update()
     {
 
+        amplitude = Hv_pdint1_AudioLib.gain;
+
+        if (isLowFreqMode) // if isLowFreqMode == true, scale the frequency down by the lowFreqScaleFactor
+        {
+            frequency = Hv_pdint1_AudioLib.freq/ lowFreqScaleFactor;
+        }
+
+        if (!isLowFreqMode) // if isLowFreqMode == false, do not scale the frequency down
+        {
+            frequency = Hv_pdint1_AudioLib.freq;
+        }
+
         if (Input.GetKeyDown("backspace"))
         {
             print("Backspace key was pressed");
             createAndInstantiatePoints();
-
         }
 
         if (Input.GetKeyDown("space"))
@@ -154,16 +197,83 @@ public class GraphControl : MonoBehaviour
             for (int i = 0; i < pointsList.Count; i++) { print(" pos of number " + i + " of the list: " + pointsList[i].transform.position); }
         }
 
-        //Toggle animation
-        if (isCurveAnimated)
+        if (Input.GetKeyDown("s"))
+        {
+            //ScalePointsOutline((pointSpacing + xPoint.transform.localScale.x) * xLength, waveOutline);
+            //keeping the above function here but might not be needed in the future
+
+        }
+
+        //Toggle linerenderer
+        if (isCurveLined)
+        {
+            LineRenderer lineRenderer = GetComponent<LineRenderer>();
+            lineRenderer.positionCount = xLength;
+            Vector3[] pointsVecArray = new Vector3[xLength];
+            for (int i = 0; i < pointsList.Count; i++)
+            {
+                pointsVecArray[i] = pointsList[i].transform.position;
+            }
+            lineRenderer.SetPositions(pointsVecArray);
+        }
+        else
+        {
+            LineRenderer lineRenderer = GetComponent<LineRenderer>();
+            lineRenderer.positionCount = 0;
+        }
+
+
+        //Toggle GameObject Mesh
+        if (!isCurveDotted)
+        {
+            MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+           
+         
+            for (int i = 0; i < pointsList.Count; i++)
+            {
+                pointsList[i].gameObject.GetComponent<MeshRenderer>().enabled = false;
+           
+            }
+            
+        } else
         {
             for (int i = 0; i < pointsList.Count; i++)
             {
-                //using localPosition in this script fucks it up... I have no idea why, i'll look into it at some point (tobi)
+                pointsList[i].gameObject.GetComponent<MeshRenderer>().enabled = true;
+            }
+        }
+        
+
+
+
+
+
+
+
+        //Toggle animation of curve
+        if (isCurveAnimated)
+        {
+            
+            for (int i = 0; i < pointsList.Count; i++)
+            {
+                //If we use localPosition in this loop it fucks up... I have no idea why, i'll look into it at some point (tobi)
                 Vector3 position = pointsList[i].transform.position;
-                position.y = Mathf.Sin(Mathf.PI * (position.x + Time.time));
+                //position.y = position.y = presets.sawTooth(position.x + Time.time, frequency, amplitude);
+                switch (curvePreset)
+                {
+                    case 1:
+                        position.y = presets.squareWave(position.x + Time.time, frequency, amplitude);
+                        break;
+                    case 2:
+                        position.y = presets.sawTooth(position.x + Time.time, frequency, amplitude);
+                        break;
+                    default:
+                        position.y = presets.sine(position.x + Time.time, frequency, amplitude);
+                        break;
+                }
                 pointsList[i].transform.position = position;
             }
+            
         }
     }
 }
