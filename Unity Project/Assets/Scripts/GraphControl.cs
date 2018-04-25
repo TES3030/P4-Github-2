@@ -14,7 +14,7 @@ public class GraphControl : MonoBehaviour
     public bool isCurveLined = false;
     public bool isCurveDotted = false;
     public GameObject xPoint; //prefab from which all points are made
-    private GameObject wavePrefab; //prefab form which the waveoutline is made
+    private GameObject wavePrefab; //prefab form which all waveoutlines are made
     public float amplitude = 1;
     public float frequency = 2;
 
@@ -61,7 +61,6 @@ public class GraphControl : MonoBehaviour
         GameObject wavePositionParent = new GameObject("WavePosition");//the empty game object containing the position of the curve/wave
         wavePositionParent.transform.rotation = Quaternion.Euler(0, 90, 0);
         wavePositionParent.transform.position = new Vector3(0, 0, 0.2f);
-        
 
         GameObject waveOutline = (GameObject)Instantiate(wavePrefab, wavePositionParent.transform.localPosition, wavePositionParent.transform.localRotation, wavePositionParent.transform) as GameObject;//instantiating the pink outline arround points
 
@@ -116,8 +115,7 @@ public class GraphControl : MonoBehaviour
 
     void Start()
     {
-        wavePrefab = (GameObject)Resources.Load("testWaveOutline", typeof(GameObject));//loading the prefab from the resources folder in order to access its values
-                                                                                     
+        wavePrefab = (GameObject)Resources.Load("testWaveOutline", typeof(GameObject));//loading the prefab from the resources folder in order to access its values                                               
 
         //LineRenderer creation
         LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -187,13 +185,9 @@ public class GraphControl : MonoBehaviour
         //Toggle GameObject Mesh
         if (isCurveDotted)
         {
-            MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-           
-         
             for (int i = 0; i < pointsList.Count; i++)
             {
                 pointsList[i].gameObject.GetComponent<MeshRenderer>().enabled = false;
-           
             }
             
         } else
@@ -203,23 +197,14 @@ public class GraphControl : MonoBehaviour
                 pointsList[i].gameObject.GetComponent<MeshRenderer>().enabled = true;
             }
         }
-        
-
-
-
-
-
-
 
         //Toggle animation of curve
         if (isCurveAnimated)
         {
-            
             for (int i = 0; i < pointsList.Count; i++)
             {
                 //If we use localPosition in this loop it fucks up... I have no idea why, i'll look into it at some point (tobi)
                 Vector3 position = pointsList[i].transform.position;
-                //position.y = position.y = presets.sawTooth(position.x + Time.time, frequency, amplitude);
                 switch (curvePreset)
                 {
                     case 1:
@@ -233,8 +218,7 @@ public class GraphControl : MonoBehaviour
                         break;
                 }
                 pointsList[i].transform.position = position;
-            }
-            
+            } 
         }
     }
 }
