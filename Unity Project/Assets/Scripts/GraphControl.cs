@@ -6,43 +6,45 @@ using UnityEngine;
 
 public class GraphControl : MonoBehaviour
 {
-    Presets presets = new Presets();
+    Presets presets = new Presets(); //Use curve-presets from Presets script.
 
-    [Range(10, 100)] //this makes the int a slider in the inspector
-    public int xLength = 10; // Gameobjects to create in Unity
-    public bool isCurveAnimated = false;
-    public bool isCurveLined = false;
+    [Range(10, 100)] //This makes xLength a slider in the inspector.
+    public int xLength = 10; // Amount of Gameobjects to create to represent a curve in Unity.
+    public bool isCurveAnimated = true; //Animation of curve on/off.
+    public bool isCurveLined = true; //LineRenderer on/off.
+    public bool isLowFreqMode = true; //Turn LowFrequency mode on/off. 
+    public bool isCurveDotted = false; //Turn gameObjects that create curve on/off.
 
-    public bool isLowFreqMode = true; // boolean to determine lowfreqmode
+    public float lowFreqScaleFactor = 10; //Determine scalefactor between lowfreqmode and highfreqmode.
 
-    public bool isCurveDotted = false;
+    public GameObject xPoint; //Prefab from which all points are made.
+    private GameObject wavePrefab; //Prefab form which all waveoutlines are made.
+    public float amplitude = 1;//Amplitude of waveform. 
+    public float frequency = 2;//Frequency of waveform. 
 
-    public float lowFreqScaleFactor = 10; // float to determine scalefactor between lowfreqmode and highfreqmode
+    public int curvePreset = 0;//Default waveform is sine (0), Square Wave (1), Sawtooth Wave (2).
 
-    public GameObject xPoint; //prefab from which all points are made
-    private GameObject wavePrefab; //prefab form which all waveoutlines are made
-    public float amplitude = 1;
-    public float frequency = 2;
+    List<GameObject> pointsList = new List<GameObject>(); //List of all points in a curve. 
 
-    public int curvePreset = 0;
-
-    List<GameObject> pointsList = new List<GameObject>(); //the list of all points in a curve
-
-    //LineRenderer colors
-    public Color c1 = Color.yellow;
-    public Color c2 = Color.red;
+    //LineRenderer colors low/high freq
+    public Color lowFrequencyColor = Color.green; //Default color for Low Frequecy mode is green.
+    public Color highFrequencyColor = Color.blue;//Default color for High Frequency mode is blue.
 
 
-    //Code to randomly change points values - only used for developing
+
+
+
+
+    //Code to randomly change points values - only used for developing.
     public void randomChange() //Puts in random values across all Gameobjects
     {
-        Vector3 temp;
+        Vector3 temp; //temp Vector for temporaily storing the point information!
         for (int i = 0; i < pointsList.Count; i++) //Loop goes through each object of list and change Y value with random factor
         {
-            if (pointsList[i] != null)
+            if (pointsList[i] != null) 
             {
 
-                temp = pointsList[i].transform.position;
+                temp = pointsList[i].transform.position; //into temp temporarily while it is changed. 
                 temp.y *= (Random.Range(-1.0f, 1.0f)); //access and change y value
                 pointsList[i].transform.position = temp;
 
@@ -129,14 +131,22 @@ public class GraphControl : MonoBehaviour
         lineRenderer.widthMultiplier = 0.1f;
         lineRenderer.positionCount = xLength;
 
-        // A simple 2 color gradient with a fixed alpha of 1.0f.
-        float alpha = 1.0f;
-        Gradient gradient = new Gradient();
-        gradient.SetKeys(
-            new GradientColorKey[] { new GradientColorKey(c1, 0.0f), new GradientColorKey(c2, 1.0f) },
+        //LineRenderer Color
+        float alpha = 1.0f; //alpha variable used to set parameters of gradient
+         Gradient lowFreqgradient = new Gradient(); //New Gradient so we can change colors
+        lowFreqgradient.SetKeys( //Set Keys of the new gradient, they change between two colors, but for now they are set to the same
+            new GradientColorKey[] { new GradientColorKey(lowFrequencyColor, 0.0f), new GradientColorKey(lowFrequencyColor, 1.0f) },
             new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
             );
-        lineRenderer.colorGradient = gradient;
+
+  
+
+        lineRenderer.colorGradient = lowFreqgradient; //Set the color to our gradient
+      
+
+
+
+
     }
 
 
@@ -147,12 +157,32 @@ public class GraphControl : MonoBehaviour
 
         if (isLowFreqMode) // if isLowFreqMode == true, scale the frequency down by the lowFreqScaleFactor
         {
-            frequency = Hv_pdint1_AudioLib.freq/ lowFreqScaleFactor;
+            frequency = Hv_pdint1_AudioLib.freq / lowFreqScaleFactor;
+
+            float alpha = 1.0f; //LOOK in start for explanation..
+            LineRenderer lineRenderer = GetComponent<LineRenderer>();
+            Gradient lowFreqgradient = new Gradient();
+            lowFreqgradient.SetKeys(
+            new GradientColorKey[] { new GradientColorKey(lowFrequencyColor, 0.0f), new GradientColorKey(lowFrequencyColor, 1.0f) },
+            new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
+            );
+            lineRenderer.colorGradient = lowFreqgradient;
+
+            
         }
 
         if (!isLowFreqMode) // if isLowFreqMode == false, do not scale the frequency down
         {
             frequency = Hv_pdint1_AudioLib.freq;
+
+            float alpha = 1.0f; //LOOK in start for explanation..
+            LineRenderer lineRenderer = GetComponent<LineRenderer>();
+            Gradient highFreqgradient = new Gradient();
+            highFreqgradient.SetKeys(
+           new GradientColorKey[] { new GradientColorKey(highFrequencyColor, 0.0f), new GradientColorKey(highFrequencyColor, 1.0f) },
+           new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
+           );
+            lineRenderer.colorGradient = highFreqgradient;
         }
 
         if (Input.GetKeyDown("backspace"))
@@ -161,11 +191,12 @@ public class GraphControl : MonoBehaviour
             createAndInstantiatePoints();
         }
 
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown("r"))
         {
             print("Space key was pressed");
             randomChange();
         }
+
 
         if (Input.GetKeyDown("p"))
         {
@@ -237,6 +268,8 @@ public class GraphControl : MonoBehaviour
                 pointsList[i].transform.position = position;
             } 
         }
+
+        
     }
 }
 
