@@ -75,36 +75,16 @@ public class GraphControl : MonoBehaviour
         Vector3 scale = Vector3.one * step;//all cube points are instantiated between -1 and 1
         Vector3 pointVec;//vector needed for the loop
         pointVec.z = 0;//z is not needed
-<<<<<<< HEAD
-<<<<<<< HEAD
-        pointVec.x = 0;
         pointVec.y = 0;
 
-=======
-        pointVec.y = 0;
->>>>>>> master
-=======
-        pointVec.y = 0;
-
->>>>>>> PDIntegration
         for (int i = 0; i < xLength; i++)//for-loop instantiating points and adding points to the gameobject points list
         {
             GameObject point;//this is only for reference
             pointsList.Add(point = (GameObject)Instantiate(xPoint, wavePositionParent.transform.localPosition, Quaternion.Euler(0, 90, 0)) as GameObject);
             //adding and instantiating points from the xPoint prefab at 90 degrees so it advances along the pink outline
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> PDIntegration
             pointVec.x = (i + 0.5f) * step - 1f;//
 
-<<<<<<< HEAD
-=======
-            pointVec.x = (i + 0.5f) * step - 1f;//dont change this
-            pointVec.y = Mathf.Sin(Mathf.PI * pointVec.x);
->>>>>>> master
-=======
             switch(curvePreset)
             {
                 case 1:
@@ -119,7 +99,6 @@ public class GraphControl : MonoBehaviour
             }
             //pointVec.y = pointVec.x * pointVec.x;//change this to change y of cubes
            
->>>>>>> PDIntegration
             point.transform.localPosition = pointVec;
             point.transform.localScale = scale;
             point.transform.SetParent(wavePositionParent.transform, true);
@@ -222,7 +201,6 @@ public class GraphControl : MonoBehaviour
             lineRenderer.positionCount = 0;
         }
 
-
         //Toggle GameObject Mesh
         if (!isCurveDotted)
         {
@@ -242,13 +220,6 @@ public class GraphControl : MonoBehaviour
                 pointsList[i].gameObject.GetComponent<MeshRenderer>().enabled = true;
             }
         }
-        
-
-
-
-
-
-
 
         //Toggle animation of curve
         if (isCurveAnimated)
