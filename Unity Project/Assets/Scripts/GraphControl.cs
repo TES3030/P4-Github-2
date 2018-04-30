@@ -15,12 +15,9 @@ public class GraphControl : MonoBehaviour
     public bool isLowFreqMode = true; //Turn LowFrequency mode on/off. 
     public bool isCurveDotted = false; //Turn gameObjects that create curve on/off.
 
-<<<<<<< HEAD
+
     public float lowFreqScaleFactor = 10; //Determine scalefactor between lowfreqmode and highfreqmode.
-=======
-    public bool isLowFreqMode = true; // boolean to determine lowfreqmode
     public int freqMode = 1;
->>>>>>> 78166a8101219052100395649ce137e74c77d4ea
 
     public GameObject xPoint; //Prefab from which all points are made.
     private GameObject wavePrefab; //Prefab form which all waveoutlines are made.
@@ -34,10 +31,6 @@ public class GraphControl : MonoBehaviour
     //LineRenderer colors low/high freq
     public Color lowFrequencyColor = Color.green; //Default color for Low Frequecy mode is green.
     public Color highFrequencyColor = Color.blue;//Default color for High Frequency mode is blue.
-
-
-
-
 
 
     //Code to randomly change points values - only used for developing.
@@ -160,7 +153,7 @@ public class GraphControl : MonoBehaviour
 
         if (isLowFreqMode) // if isLowFreqMode == true, scale the frequency down by the lowFreqScaleFactor
         {
-<<<<<<< HEAD
+
             frequency = Hv_pdint1_AudioLib.freq / lowFreqScaleFactor;
 
             float alpha = 1.0f; //LOOK in start for explanation..
@@ -187,7 +180,7 @@ public class GraphControl : MonoBehaviour
            new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
            );
             lineRenderer.colorGradient = highFreqgradient;
-=======
+
             switch (freqMode)
             {
                 case 1:
@@ -202,7 +195,7 @@ public class GraphControl : MonoBehaviour
                     break;
             
             }
->>>>>>> 78166a8101219052100395649ce137e74c77d4ea
+
         }
         // if isLowFreqMode == false, return to default state
 
