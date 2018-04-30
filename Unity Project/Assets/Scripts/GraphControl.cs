@@ -14,6 +14,7 @@ public class GraphControl : MonoBehaviour
     public bool isCurveLined = false;
 
     public bool isLowFreqMode = true; // boolean to determine lowfreqmode
+    public int freqMode = 1;
 
     public bool isCurveDotted = false;
 
@@ -141,19 +142,26 @@ public class GraphControl : MonoBehaviour
 
 
     void Update()
-    {
-
-        amplitude = Hv_pdint1_AudioLib.gain;
+    {   
 
         if (isLowFreqMode) // if isLowFreqMode == true, scale the frequency down by the lowFreqScaleFactor
         {
-            frequency = Hv_pdint1_AudioLib.freq/ lowFreqScaleFactor;
+            switch (freqMode)
+            {
+                case 1:
+                    amplitude = Hv_pdint1_AudioLib.gain;
+                    frequency = Hv_pdint1_AudioLib.freq;
+                    break;
+                case 2:
+                    amplitude = Hv_pdint1_AudioLib.gain;
+                    frequency = Hv_pdint1_AudioLib.freq / lowFreqScaleFactor;
+                    break;
+                default:
+                    break;
+            
+            }
         }
-
-        if (!isLowFreqMode) // if isLowFreqMode == false, do not scale the frequency down
-        {
-            frequency = Hv_pdint1_AudioLib.freq;
-        }
+        // if isLowFreqMode == false, return to default state
 
         if (Input.GetKeyDown("backspace"))
         {
@@ -214,6 +222,7 @@ public class GraphControl : MonoBehaviour
                 pointsList[i].gameObject.GetComponent<MeshRenderer>().enabled = true;
             }
         }
+        
 
         //Toggle animation of curve
         if (isCurveAnimated)
