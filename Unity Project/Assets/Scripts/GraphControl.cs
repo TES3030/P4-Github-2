@@ -6,19 +6,18 @@ using UnityEngine;
 
 public class GraphControl : MonoBehaviour
 {
+    public float lowFrequencyScaleFactor = 10; //Determine scalefactor between lowfreqmode and highfreqmode.
     Presets presets;
 
-    [Range(10, 100)] //This makes xLength a slider in the inspector.
-    public int xObjectLength = 10; // Amount of Gameobjects to create to represent a curve in Unity.
+    [Range(10, 100)] //This makes xObjectLength a slider in the inspector.
+    private int xObjectLength; // Amount of Gameobjects to create to represent a curve in Unity.
     public bool CurveAnimated = true; //Animation of curve on/off.
     public bool CurveLined = true; //LineRenderer on/off.
     public bool LowFrequencyMode = true; //Turn LowFrequency mode on/off. 
     public FreqModeName frequencyMode;
     public bool CurveDotted = false; //Turn gameObjects that create curve on/off.
 
-
     public float lowFrequencyScaleFactor = 10; //Determine scalefactor between lowfreqmode and highfreqmode.
-
     private int xLength; // Amount of Gameobjects to create to represent a curve in Unity.
     public bool isCurveAnimated = true; //Animation of curve on/off.
     public bool isCurveLined = true; //LineRenderer on/off.
@@ -270,6 +269,7 @@ public class GraphControl : MonoBehaviour
 
         if (Input.GetKeyDown("backspace"))
         {
+
             print("Backspace key was pressed.");
             createAndInstantiatePoints(); //Look at function description. 
             print("Backspace key was pressed");
