@@ -170,7 +170,7 @@ public class GraphControl : MonoBehaviour
 
                 
                     float alpha02 = 1.0f; //LOOK in start for explanation..
-                    LineRenderer lineRenderer = GetComponent<LineRenderer>();
+                    LineRenderer lineRenderer02 = GetComponent<LineRenderer>();
                     Gradient highFreqgradient = new Gradient();
                     highFreqgradient.SetKeys(
                    new GradientColorKey[] { new GradientColorKey(highFrequencyColor, 0.0f), new GradientColorKey(highFrequencyColor, 1.0f) },
