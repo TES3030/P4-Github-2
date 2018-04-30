@@ -144,7 +144,6 @@ public class GraphControl : MonoBehaviour
 
     void Update()
     {   
-
             switch ((int)freqMode)
             {
                 case 0:
@@ -179,7 +178,7 @@ public class GraphControl : MonoBehaviour
                     // if isLowFreqMode == false, return to default state
                     frequency = 2;
                     amplitude = 1;
-                    isLowFreqMode = !isLowFreqMode;
+                    isLowFreqMode = false;
                     break;
             
             }
