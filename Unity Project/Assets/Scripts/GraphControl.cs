@@ -13,18 +13,18 @@ public class GraphControl : MonoBehaviour
     public bool isCurveAnimated = true; //Animation of curve on/off.
     public bool isCurveLined = true; //LineRenderer on/off.
     public bool isLowFreqMode = true; //Turn LowFrequency mode on/off. 
+    public FreqModeName freqMode;
     public bool isCurveDotted = false; //Turn gameObjects that create curve on/off.
 
 
     public float lowFreqScaleFactor = 10; //Determine scalefactor between lowfreqmode and highfreqmode.
-    public int freqMode = 1;
 
     public GameObject xPoint; //Prefab from which all points are made.
     private GameObject wavePrefab; //Prefab form which all waveoutlines are made.
     public float amplitude = 1;//Amplitude of waveform. 
     public float frequency = 2;//Frequency of waveform. 
 
-    public int curvePreset = 0;//Default waveform is sine (0), Square Wave (1), Sawtooth Wave (2).
+    public GraphFunctionName curvePresetFunction;
 
     List<GameObject> pointsList = new List<GameObject>(); //List of all points in a curve. 
 
@@ -84,7 +84,7 @@ public class GraphControl : MonoBehaviour
 
             pointVec.x = (i + 0.5f) * step - 1f;//
 
-            switch(curvePreset)
+            switch((int)curvePresetFunction)
             {
                 case 1:
                     pointVec.y = presets.squareWave(pointVec.x,frequency,amplitude);
@@ -137,13 +137,7 @@ public class GraphControl : MonoBehaviour
             new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
             );
 
-  
-
         lineRenderer.colorGradient = lowFreqgradient; //Set the color to our gradient
-      
-
-
-
 
     }
 
@@ -151,53 +145,47 @@ public class GraphControl : MonoBehaviour
     void Update()
     {   
 
-        if (isLowFreqMode) // if isLowFreqMode == true, scale the frequency down by the lowFreqScaleFactor
-        {
-
-            frequency = Hv_pdint1_AudioLib.freq / lowFreqScaleFactor;
-
-            float alpha = 1.0f; //LOOK in start for explanation..
-            LineRenderer lineRenderer = GetComponent<LineRenderer>();
-            Gradient lowFreqgradient = new Gradient();
-            lowFreqgradient.SetKeys(
-            new GradientColorKey[] { new GradientColorKey(lowFrequencyColor, 0.0f), new GradientColorKey(lowFrequencyColor, 1.0f) },
-            new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
-            );
-            lineRenderer.colorGradient = lowFreqgradient;
-
-            
-        }
-
-        if (!isLowFreqMode) // if isLowFreqMode == false, do not scale the frequency down
-        {
-            frequency = Hv_pdint1_AudioLib.freq;
-
-            float alpha = 1.0f; //LOOK in start for explanation..
-            LineRenderer lineRenderer = GetComponent<LineRenderer>();
-            Gradient highFreqgradient = new Gradient();
-            highFreqgradient.SetKeys(
-           new GradientColorKey[] { new GradientColorKey(highFrequencyColor, 0.0f), new GradientColorKey(highFrequencyColor, 1.0f) },
-           new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
-           );
-            lineRenderer.colorGradient = highFreqgradient;
-
-            switch (freqMode)
+            switch ((int)freqMode)
             {
+                case 0:
+                    amplitude = Hv_pdint1_AudioLib.gain;
+                    frequency = Hv_pdint1_AudioLib.freq / lowFreqScaleFactor;
+                /*
+                    float alpha = 1.0f; //LOOK in start for explanation..
+                    LineRenderer lineRenderer = GetComponent<LineRenderer>();
+                    Gradient lowFreqgradient = new Gradient();
+                    lowFreqgradient.SetKeys(
+                    new GradientColorKey[] { new GradientColorKey(lowFrequencyColor, 0.0f), new GradientColorKey(lowFrequencyColor, 1.0f) },
+                    new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
+                    );
+                    lineRenderer.colorGradient = lowFreqgradient;
+                    */
+                    break;
                 case 1:
                     amplitude = Hv_pdint1_AudioLib.gain;
                     frequency = Hv_pdint1_AudioLib.freq;
-                    break;
-                case 2:
-                    amplitude = Hv_pdint1_AudioLib.gain;
-                    frequency = Hv_pdint1_AudioLib.freq / lowFreqScaleFactor;
+                /*
+                    float alpha = 1.0f; //LOOK in start for explanation..
+                    //LineRenderer lineRenderer = GetComponent<LineRenderer>();
+                    Gradient highFreqgradient = new Gradient();
+                    highFreqgradient.SetKeys(
+                   new GradientColorKey[] { new GradientColorKey(highFrequencyColor, 0.0f), new GradientColorKey(highFrequencyColor, 1.0f) },
+                   new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
+                   );
+                    lineRenderer.colorGradient = highFreqgradient;
+                    */
                     break;
                 default:
+                    // if isLowFreqMode == false, return to default state
+                    frequency = 2;
+                    amplitude = 1;
+                    isLowFreqMode = !isLowFreqMode;
                     break;
             
             }
 
         }
-        // if isLowFreqMode == false, return to default state
+          
 
         if (Input.GetKeyDown("backspace"))
         {
@@ -268,7 +256,7 @@ public class GraphControl : MonoBehaviour
             {
                 //If we use localPosition in this loop it fucks up... I have no idea why, i'll look into it at some point (tobi)
                 Vector3 position = pointsList[i].transform.position;
-                switch (curvePreset)
+                switch ((int)curvePresetFunction)
                 {
                     case 1:
                         position.y = presets.squareWave(position.x + Time.time, frequency, amplitude);
