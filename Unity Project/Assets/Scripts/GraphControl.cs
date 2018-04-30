@@ -150,7 +150,7 @@ public class GraphControl : MonoBehaviour
                 case 0:
                     amplitude = Hv_pdint1_AudioLib.gain;
                     frequency = Hv_pdint1_AudioLib.freq / lowFreqScaleFactor;
-                /*
+                
                     float alpha = 1.0f; //LOOK in start for explanation..
                     LineRenderer lineRenderer = GetComponent<LineRenderer>();
                     Gradient lowFreqgradient = new Gradient();
@@ -159,21 +159,21 @@ public class GraphControl : MonoBehaviour
                     new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
                     );
                     lineRenderer.colorGradient = lowFreqgradient;
-                    */
+                    
                     break;
                 case 1:
                     amplitude = Hv_pdint1_AudioLib.gain;
                     frequency = Hv_pdint1_AudioLib.freq;
-                /*
-                    float alpha = 1.0f; //LOOK in start for explanation..
-                    //LineRenderer lineRenderer = GetComponent<LineRenderer>();
+                
+                    float alpha02 = 1.0f; //LOOK in start for explanation..
+                    LineRenderer lineRenderer02 = GetComponent<LineRenderer>();
                     Gradient highFreqgradient = new Gradient();
                     highFreqgradient.SetKeys(
                    new GradientColorKey[] { new GradientColorKey(highFrequencyColor, 0.0f), new GradientColorKey(highFrequencyColor, 1.0f) },
-                   new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
+                   new GradientAlphaKey[] { new GradientAlphaKey(alpha02, 0.0f), new GradientAlphaKey(alpha02, 1.0f) }
                    );
-                    lineRenderer.colorGradient = highFreqgradient;
-                    */
+                    lineRenderer02.colorGradient = highFreqgradient;
+                    
                     break;
                 default:
                     // if isLowFreqMode == false, return to default state
