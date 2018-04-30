@@ -143,45 +143,48 @@ public class GraphControl : MonoBehaviour
 
 
     void Update()
-    {   
+    {
+        if (isLowFreqMode)
+        {
             switch ((int)freqMode)
             {
                 case 0:
                     amplitude = Hv_pdint1_AudioLib.gain;
                     frequency = Hv_pdint1_AudioLib.freq / lowFreqScaleFactor;
-                /*
-                    float alpha = 1.0f; //LOOK in start for explanation..
-                    LineRenderer lineRenderer = GetComponent<LineRenderer>();
-                    Gradient lowFreqgradient = new Gradient();
-                    lowFreqgradient.SetKeys(
-                    new GradientColorKey[] { new GradientColorKey(lowFrequencyColor, 0.0f), new GradientColorKey(lowFrequencyColor, 1.0f) },
-                    new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
-                    );
-                    lineRenderer.colorGradient = lowFreqgradient;
-                    */
+                    /*
+                        float alpha = 1.0f; //LOOK in start for explanation..
+                        LineRenderer lineRenderer = GetComponent<LineRenderer>();
+                        Gradient lowFreqgradient = new Gradient();
+                        lowFreqgradient.SetKeys(
+                        new GradientColorKey[] { new GradientColorKey(lowFrequencyColor, 0.0f), new GradientColorKey(lowFrequencyColor, 1.0f) },
+                        new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
+                        );
+                        lineRenderer.colorGradient = lowFreqgradient;
+                        */
                     break;
                 case 1:
                     amplitude = Hv_pdint1_AudioLib.gain;
                     frequency = Hv_pdint1_AudioLib.freq;
-                /*
-                    float alpha = 1.0f; //LOOK in start for explanation..
-                    //LineRenderer lineRenderer = GetComponent<LineRenderer>();
-                    Gradient highFreqgradient = new Gradient();
-                    highFreqgradient.SetKeys(
-                   new GradientColorKey[] { new GradientColorKey(highFrequencyColor, 0.0f), new GradientColorKey(highFrequencyColor, 1.0f) },
-                   new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
-                   );
-                    lineRenderer.colorGradient = highFreqgradient;
-                    */
+                    /*
+                        float alpha = 1.0f; //LOOK in start for explanation..
+                        //LineRenderer lineRenderer = GetComponent<LineRenderer>();
+                        Gradient highFreqgradient = new Gradient();
+                        highFreqgradient.SetKeys(
+                       new GradientColorKey[] { new GradientColorKey(highFrequencyColor, 0.0f), new GradientColorKey(highFrequencyColor, 1.0f) },
+                       new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
+                       );
+                        lineRenderer.colorGradient = highFreqgradient;
+                        */
                     break;
                 default:
                     // if isLowFreqMode == false, return to default state
                     frequency = 2;
                     amplitude = 1;
-                    isLowFreqMode = false;
+                    isLowFreqMode = !isLowFreqMode;
                     break;
-            
+
             }
+        }
 
         
           
