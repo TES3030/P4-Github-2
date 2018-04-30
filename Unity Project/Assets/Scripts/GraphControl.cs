@@ -6,18 +6,8 @@ using UnityEngine;
 
 public class GraphControl : MonoBehaviour
 {
-    public float lowFrequencyScaleFactor = 10; //Determine scalefactor between lowfreqmode and highfreqmode.
     Presets presets;
 
-    [Range(10, 100)] //This makes xObjectLength a slider in the inspector.
-    private int xObjectLength; // Amount of Gameobjects to create to represent a curve in Unity.
-    public bool CurveAnimated = true; //Animation of curve on/off.
-    public bool CurveLined = true; //LineRenderer on/off.
-    public bool LowFrequencyMode = true; //Turn LowFrequency mode on/off. 
-    public FreqModeName frequencyMode;
-    public bool CurveDotted = false; //Turn gameObjects that create curve on/off.
-
-    public float lowFrequencyScaleFactor = 10; //Determine scalefactor between lowfreqmode and highfreqmode.
     private int xLength; // Amount of Gameobjects to create to represent a curve in Unity.
     public bool isCurveAnimated = true; //Animation of curve on/off.
     public bool isCurveLined = true; //LineRenderer on/off.
@@ -34,7 +24,7 @@ public class GraphControl : MonoBehaviour
     public float amplitude = 1;//Amplitude of waveform. 
     public float frequency = 2;//Frequency of waveform. 
 
-    public GraphFunctionName curvePresetFunction; //Drop down menu for Presets. 
+    public GraphFunctionName curvePresetFunction;
 
     List<GameObject> pointsList = new List<GameObject>(); //List of all points in a curve. 
 
@@ -45,43 +35,6 @@ public class GraphControl : MonoBehaviour
     public Color lowFrequencyColor = Color.green; //Default color for Low Frequecy mode is green.
     public Color highFrequencyColor = Color.blue;//Default color for High Frequency mode is blue.
 
-
-    //Code to randomly change points values - only used for developing.
-    public void randomChange() //Puts in random values across all Gameobjects
-    {
-        Vector3 temp; //Temp Vector for temporaily storing the point information!
-        for (int i = 0; i < pointsList.Count; i++) //Loop goes through each object of list and change Y value with random factor
-        {
-            if (pointsList[i] != null) 
-            {
-
-                temp = pointsList[i].transform.position; //Into temp temporarily while it is changed. 
-                temp.y *= (Random.Range(-1.0f, 1.0f)); //Access and change y value.
-                pointsList[i].transform.position = temp; //Back into list.
-
-            }
-            else
-            {
-                Debug.Log("obj is null"); //Debug if empty list. 
-            }
-        }
-
-        for (int i = 0; i < pointsList.Count; i++) //Go through objects in the pointslist.
-        {
-            print(pointsList[i]); //Print position of objects to console.
-
-        }
-    }
-
-    //Function that creates points for the lsit and instantiates them to it. 
-    public void createAndInstantiatePoints()
-    {
-
-        GameObject wavePositionParent = new GameObject("WavePosition");//The empty game object containing the position of the curve/wave. 
-        wavePositionParent.transform.rotation = Quaternion.Euler(0, 90, 0);//90 degree rotation to align all objects correctly in the X/Y/Z dimensions. 
-        wavePositionParent.transform.position = new Vector3(0, 0, 0.2f);//Slight adjustment. 
-
-        GameObject waveOutline = (GameObject)Instantiate(wavePrefab, wavePositionParent.transform.localPosition, wavePositionParent.transform.localRotation, wavePositionParent.transform) as GameObject;//Instantiating the outline around points. 
     
 
     //fucntion that creates points for the lsit and instantiates them
@@ -90,43 +43,14 @@ public class GraphControl : MonoBehaviour
     {
         GameObject waveOutline = (GameObject)Instantiate(wavePrefab, GraphHolderParent.localPosition, GraphHolderParent.localRotation, GraphHolderParent) as GameObject;//instantiating the pink outline arround points
 
-        float step = 2f / xObjectLength; //X dimension x Object spacing relationship. 
-        Vector3 scale = Vector3.one * step;//All cube points are instantiated between -1 and 1. 
-        Vector3 pointVec;//Vector needed for the loop.
-        pointVec.z = 0;//Z is not needed as we are primarily working with the Y and X dimesions. 
-        pointVec.y = 0;//Y dimension. 
+        float step = 2f / xLength;
+        Vector3 scale = Vector3.one * step;//all cube points are instantiated between -1 and 1
+        Vector3 pointVec;//vector needed for the loop
+        pointVec.z = 0;//z is not needed
+        pointVec.y = 0;
 
-        for (int i = 0; i < xObjectLength; i++)//For-loop instantiating points and adding points to the gameobject points list. 
+        for (int i = 0; i < xLength; i++)//for-loop instantiating points and adding points to the gameobject points list
         {
-            GameObject point;//This is for reference.
-            pointsList.Add(point = (GameObject)Instantiate(xPoint, wavePositionParent.transform.localPosition, Quaternion.Euler(0, 90, 0)) as GameObject);//90 degree rotation to align all objects correctly in the X/Y/Z dimensions. 
-            //Adding and instantiating points from the xObjectLength prefab at 90 degrees so it advances along the outline.
-
-            pointVec.x = (i + 0.5f) * step - 1f;//Spacing between X points. 
-
-            switch((int)curvePresetFunction) //Switch for curve presets. 
-            {
-                case 1: //Square wave. 
-                    pointVec.y = presets.squareWave(pointVec.x,frequency,amplitude);
-                    break;
-                case 2: //Sawtooth wave. 
-                    pointVec.y = presets.sawTooth(pointVec.x, frequency, amplitude);
-                    break;
-                default: //Sine wave. 
-                    pointVec.y = presets.sine(pointVec.x, frequency, amplitude);
-                    break;
-            }
-            //pointVec.y = pointVec.x * pointVec.x;//Change this to change y of cubes.
-           
-            point.transform.localPosition = pointVec; //Change the object position in Unity. 
-            point.transform.localScale = scale; //Scale in accordance with scale factor. 
-            point.transform.SetParent(wavePositionParent.transform, true); //Hierachical relationship of parrent. 
-            //Setting the parent at the end, and stating "true" in order to let the points keep their values.
-
-        }   
-    }
-
-    public void ScalePointsOutline(float waveWidth, GameObject wave)//Functions that scales the waveoutline.
             GameObject point;//this is only for reference
             pointsList.Add(point = (GameObject)Instantiate(xPoint, GraphHolderParent.localPosition, Quaternion.Euler(0, 90, 0)) as GameObject);
             //adding and instantiating points from the xPoint prefab at 90 degrees so it advances along the pink outline
@@ -155,20 +79,6 @@ public class GraphControl : MonoBehaviour
 
     void setXLength(int x)
     {
-<<<<<<< HEAD
-        wavePrefab = (GameObject)Resources.Load("testWaveOutline", typeof(GameObject));//Loading the prefab from the resources folder in order to access its values.                                               
-
-        //LineRenderer creation.
-        LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>(); //Adds linerenderer to Graph-holder object. 
-        lineRenderer.material = new Material(Shader.Find("Particles/Additive"));//Creats new material for the linerenderer. 
-        lineRenderer.widthMultiplier = 0.1f; //Changes the thickness of the line. 
-        lineRenderer.positionCount = xObjectLength;//Puts all the positions of the X objects to the positions in the linerenderer. 
-
-        //LineRenderer Color.
-        float alpha = 1.0f; //Alpha variable used to set parameters of gradient. 
-         Gradient lowFreqgradient = new Gradient(); //New Gradient so we can change colors
-        lowFreqgradient.SetKeys( //Set Keys of the new gradient, they change between two colors, but for now they are set to the same
-            new GradientColorKey[] { new GradientColorKey(lowFrequencyColor, 0.0f), new GradientColorKey(lowFrequencyColor, 1.0f) },
         xLength = x;
         LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
@@ -220,16 +130,15 @@ public class GraphControl : MonoBehaviour
 
     void Update()
     {
-        if (LowFrequencyMode) //If we have the low frequency mode activated, you can change between the two. 
+        if (isLowFreqMode)
         {
-            switch ((int)frequencyMode) //Switch case for frequency modes. 
+            switch ((int)freqMode)
             {
-                case 0: //Low frequency mode divides the frequncy by a scaling factor, so that the user may see the wave "Slowed down". 
-                    amplitude = Hv_pdint1_AudioLib.gain; //PureData intergration of amplitude data. 
-                    frequency = Hv_pdint1_AudioLib.freq / lowFrequencyScaleFactor; //PureData intergration of frequncy data. 
+                case 0:
+                    amplitude = Hv_pdint1_AudioLib.gain;
+                    frequency = Hv_pdint1_AudioLib.freq / lowFreqScaleFactor;
 
-
-
+                
                     float alpha = 1.0f; //LOOK in start for explanation..
                     LineRenderer lineRenderer = GetComponent<LineRenderer>();
                     Gradient lowFreqgradient = new Gradient();
@@ -241,7 +150,7 @@ public class GraphControl : MonoBehaviour
                     
 
                     break;
-                case 1: //No scaling of the data from PureData. 
+                case 1:
                     amplitude = Hv_pdint1_AudioLib.gain;
                     frequency = Hv_pdint1_AudioLib.freq;
                 
@@ -256,10 +165,10 @@ public class GraphControl : MonoBehaviour
                     
                     break;
                 default:
-                    // If LowFrequencyMode is false, return to default variables. 
+                    // if isLowFreqMode == false, return to default state
                     frequency = 2;
                     amplitude = 1;
-                    LowFrequencyMode = !LowFrequencyMode;
+                    isLowFreqMode = !isLowFreqMode;
                     break;
 
             }
@@ -268,43 +177,37 @@ public class GraphControl : MonoBehaviour
 
         if (Input.GetKeyDown("backspace"))
         {
-
-            print("Backspace key was pressed.");
-            createAndInstantiatePoints(); //Look at function description. 
             print("Backspace key was pressed");
             //createAndInstantiatePoints();
         }
 
         if (Input.GetKeyDown("r"))
         {
-            print("Space key was pressed.");
-            randomChange(); //Look at function description. 
-=======
             print("Space key was pressed");
             //randomChange();
         }
 
 
-        if (Input.GetKeyDown("p")) //Prints the position of the points of the list. 
+        if (Input.GetKeyDown("p"))
         {
-            print("Printing list");
-            print("List length: " + pointsList.Count);
-            for (int i = 0; i < pointsList.Count; i++) { print(" Position of number " + i + " of the list: " + pointsList[i].transform.position); }
+            print("printing list");
+            print("list length: " + pointsList.Count);
+            for (int i = 0; i < pointsList.Count; i++) { print(" pos of number " + i + " of the list: " + pointsList[i].transform.position); }
         }
 
         if (Input.GetKeyDown("s"))
         {
-            //ScalePointsOutline((pointSpacing + xPoint.transform.localScale.x) * xObjectLength, waveOutline);
+            //ScalePointsOutline((pointSpacing + xPoint.transform.localScale.x) * xLength, waveOutline);
             //keeping the above function here but might not be needed in the future
 
         }
 
-        //Toggle linerenderer.
-        if (CurveLined)
+        //Toggle linerenderer
+        if (isCurveLined)
         {
             LineRenderer lineRenderer = GetComponent<LineRenderer>();
-            lineRenderer.positionCount = xObjectLength;
-            Vector3[] pointsVecArray = new Vector3[xObjectLength];
+            lineRenderer.positionCount = xLength;
+            Vector3[] pointsVecArray = new Vector3[xLength];
             for (int i = 0; i < pointsList.Count; i++)
             {
                 pointsVecArray[i] = pointsList[i].transform.position;
@@ -317,8 +220,8 @@ public class GraphControl : MonoBehaviour
             lineRenderer.positionCount = 0;
         }
 
-        //Toggle GameObject Mesh.
-        if (!CurveDotted)
+        //Toggle GameObject Mesh
+        if (!isCurveDotted)
         {
             for (int i = 0; i < pointsList.Count; i++)
             {
@@ -334,8 +237,8 @@ public class GraphControl : MonoBehaviour
         }
         
 
-        //Toggle animation of curve.
-        if (CurveAnimated)
+        //Toggle animation of curve
+        if (isCurveAnimated)
         {
             for (int i = 0; i < pointsList.Count; i++)
             {

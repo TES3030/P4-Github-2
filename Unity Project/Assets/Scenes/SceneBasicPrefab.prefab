@@ -131,23 +131,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1359277107992846
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4311437370323046}
-  - component: {fileID: 114772898883803438}
-  - component: {fileID: 114268941431254304}
-  m_Layer: 0
-  m_Name: GraphHolder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1735360008584908
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,8 +142,9 @@ GameObject:
   - component: {fileID: 82381941538607778}
   - component: {fileID: 114654630095400624}
   - component: {fileID: 114714543206484436}
+  - component: {fileID: 114158248953555196}
   m_Layer: 0
-  m_Name: AudioObject
+  m_Name: GraphManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -183,19 +167,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!4 &4311437370323046
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1359277107992846}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.02934907, y: -0.43320292, z: 1.3989223}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4836022838699632}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4346343471453770
 Transform:
   m_ObjectHideFlags: 1
@@ -233,7 +204,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4836022838699632}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4474204910680730
 Transform:
@@ -246,7 +217,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4836022838699632}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4580575669406522
 Transform:
@@ -276,7 +247,6 @@ Transform:
   - {fileID: 4890089250791004}
   - {fileID: 4389483477573828}
   - {fileID: 4939469520903696}
-  - {fileID: 4311437370323046}
   - {fileID: 4425880106310642}
   - {fileID: 4474204910680730}
   m_Father: {fileID: 0}
@@ -290,7 +260,7 @@ Transform:
   m_GameObject: {fileID: 1750704752616452}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -0.02934907, y: -2.433203, z: 1.3989223}
-  m_LocalScale: {x: 25.000107, y: 25, z: 25.000107}
+  m_LocalScale: {x: 25.000137, y: 25, z: 25.000137}
   m_Children: []
   m_Father: {fileID: 4836022838699632}
   m_RootOrder: 2
@@ -673,18 +643,19 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114268941431254304
+--- !u!114 &114158248953555196
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1359277107992846}
+  m_GameObject: {fileID: 1735360008584908}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc131a9c471a24bec8e0d5d8a0fed3f0, type: 3}
+  m_Script: {fileID: 11500000, guid: a5d57d3e68e942642ae93ff137bfb9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  GraphHolder: {fileID: 0}
+  xLengthForNextGraph: 80
 --- !u!114 &114654630095400624
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -708,29 +679,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd337ed08498ec4ba4efb1a20c30c49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114772898883803438
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1359277107992846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e6ce6e53f98d66479974d1534c3c465, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  xLength: 80
-  isCurveAnimated: 1
-  isCurveLined: 1
-  isLowFreqMode: 1
-  isCurveDotted: 0
-  lowFreqScaleFactor: 10
-  xPoint: {fileID: 1507095926771302, guid: 4cd33bf820f1b674a895cba10993e299, type: 2}
-  amplitude: 1
-  frequency: 2
-  curvePreset: 0
-  c1: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  c2: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &114898009203073118
 MonoBehaviour:
   m_ObjectHideFlags: 1
