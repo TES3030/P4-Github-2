@@ -14,7 +14,7 @@ public class GraphControl : MonoBehaviour
     public bool isCurveLined = false;
 
     public bool isLowFreqMode = true; // boolean to determine lowfreqmode
-    public int freqMode = 1;
+    public FreqModeName freqMode;
 
     public bool isCurveDotted = false;
 
@@ -25,7 +25,7 @@ public class GraphControl : MonoBehaviour
     public float amplitude = 1;
     public float frequency = 2;
 
-    public int curvePreset = 0;
+    public GraphFunctionName curvePresetFunction;
 
     List<GameObject> pointsList = new List<GameObject>(); //the list of all points in a curve
 
@@ -85,7 +85,7 @@ public class GraphControl : MonoBehaviour
 
             pointVec.x = (i + 0.5f) * step - 1f;//
 
-            switch(curvePreset)
+            switch((int)curvePresetFunction)
             {
                 case 1:
                     pointVec.y = presets.squareWave(pointVec.x,frequency,amplitude);
@@ -146,22 +146,26 @@ public class GraphControl : MonoBehaviour
 
         if (isLowFreqMode) // if isLowFreqMode == true, scale the frequency down by the lowFreqScaleFactor
         {
-            switch (freqMode)
+            switch ((int)freqMode)
             {
+                case 0:
+                    amplitude = Hv_pdint1_AudioLib.gain;
+                    frequency = Hv_pdint1_AudioLib.freq / lowFreqScaleFactor;
+                    break;
                 case 1:
                     amplitude = Hv_pdint1_AudioLib.gain;
                     frequency = Hv_pdint1_AudioLib.freq;
                     break;
-                case 2:
-                    amplitude = Hv_pdint1_AudioLib.gain;
-                    frequency = Hv_pdint1_AudioLib.freq / lowFreqScaleFactor;
-                    break;
                 default:
+                    // if isLowFreqMode == false, return to default state
+                    frequency = 2;
+                    amplitude = 1;
+                    isLowFreqMode = !isLowFreqMode;
                     break;
             
             }
         }
-        // if isLowFreqMode == false, return to default state
+          
 
         if (Input.GetKeyDown("backspace"))
         {
@@ -231,7 +235,7 @@ public class GraphControl : MonoBehaviour
             {
                 //If we use localPosition in this loop it fucks up... I have no idea why, i'll look into it at some point (tobi)
                 Vector3 position = pointsList[i].transform.position;
-                switch (curvePreset)
+                switch ((int)curvePresetFunction)
                 {
                     case 1:
                         position.y = presets.squareWave(position.x + Time.time, frequency, amplitude);
