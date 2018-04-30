@@ -150,6 +150,7 @@ public class GraphControl : MonoBehaviour
                 case 0:
                     amplitude = Hv_pdint1_AudioLib.gain;
                     frequency = Hv_pdint1_AudioLib.freq / lowFreqScaleFactor;
+<<<<<<< HEAD
                 
                     float alpha = 1.0f; //LOOK in start for explanation..
                     LineRenderer lineRenderer = GetComponent<LineRenderer>();
@@ -160,10 +161,13 @@ public class GraphControl : MonoBehaviour
                     );
                     lineRenderer.colorGradient = lowFreqgradient;
                     
+=======
+>>>>>>> 8d1a8de951593b8baccd64c0f6e640d2d7239c2b
                     break;
                 case 1:
                     amplitude = Hv_pdint1_AudioLib.gain;
                     frequency = Hv_pdint1_AudioLib.freq;
+<<<<<<< HEAD
                 
                     float alpha02 = 1.0f; //LOOK in start for explanation..
                     LineRenderer lineRenderer02 = GetComponent<LineRenderer>();
@@ -174,6 +178,8 @@ public class GraphControl : MonoBehaviour
                    );
                     lineRenderer02.colorGradient = highFreqgradient;
                     
+=======
+>>>>>>> 8d1a8de951593b8baccd64c0f6e640d2d7239c2b
                     break;
                 default:
                     // if isLowFreqMode == false, return to default state
