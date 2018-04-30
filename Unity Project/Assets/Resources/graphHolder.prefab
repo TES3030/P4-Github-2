@@ -19,8 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4439607778429326}
-  - component: {fileID: 114841977368744684}
-  - component: {fileID: 114251891502269250}
+  - component: {fileID: 114575412945373662}
   - component: {fileID: 82343981989530768}
   - component: {fileID: 114286639392061518}
   - component: {fileID: 114193912007244642}
@@ -136,18 +135,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   signalIn: {fileID: 0}
---- !u!114 &114251891502269250
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1180291623146780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc131a9c471a24bec8e0d5d8a0fed3f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  time: 0
 --- !u!114 &114286639392061518
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -159,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd337ed08498ec4ba4efb1a20c30c49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114841977368744684
+--- !u!114 &114575412945373662
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -167,12 +154,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1180291623146780}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e6ce6e53f98d66479974d1534c3c465, type: 3}
+  m_Script: {fileID: 11500000, guid: 780bf3ce0dee5da4d9d44333680b5582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isCurveAnimated: 1
   isCurveLined: 1
-  isLowFreqMode: 0
+  isLowFreqMode: 1
   freqMode: 0
   isCurveDotted: 0
   lowFreqScaleFactor: 10
