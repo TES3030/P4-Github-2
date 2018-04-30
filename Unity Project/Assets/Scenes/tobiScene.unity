@@ -689,7 +689,7 @@ MonoBehaviour:
   xLength: 80
   isCurveAnimated: 1
   isCurveLined: 1
-  isLowFreqMode: 1
+  isLowFreqMode: 0
   isCurveDotted: 0
   lowFreqScaleFactor: 10
   xPoint: {fileID: 1507095926771302, guid: 4cd33bf820f1b674a895cba10993e299, type: 2}
