@@ -686,18 +686,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e6ce6e53f98d66479974d1534c3c465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xLength: 80
-  isCurveAnimated: 1
-  isCurveLined: 1
-  isLowFreqMode: 0
-  isCurveDotted: 0
-  lowFreqScaleFactor: 10
+  xObjectLength: 80
+  CurveAnimated: 1
+  CurveLined: 1
+  LowFrequencyMode: 1
+  frequencyMode: 0
+  CurveDotted: 0
+  lowFrequencyScaleFactor: 10
   xPoint: {fileID: 1507095926771302, guid: 4cd33bf820f1b674a895cba10993e299, type: 2}
   amplitude: 1
   frequency: 2
-  curvePreset: 0
-  c1: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  c2: {r: 1, g: 0, b: 0, a: 1}
+  curvePresetFunction: 0
+  lowFrequencyColor: {r: 0, g: 1, b: 0, a: 1}
+  highFrequencyColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!4 &1846174996
 Transform:
   m_ObjectHideFlags: 0
