@@ -7,13 +7,13 @@ public class Presets : MonoBehaviour {
     public float time;
     float yVal;
 
-    public float sine(float xVal, float frequency, float amplitude)
+    public float sine(float xVal, float frequency, float amplitude) 
     {
         yVal = amplitude * Mathf.Sin(frequency * xVal);
         return yVal; 
     }
 
-    public float squareWave(float xVal, float frequency, float amplitude)
+    public float squareWave(float xVal, float frequency, float amplitude) //Recursive. 
     {
         yVal = amplitude * Mathf.Sign(Mathf.Sin(frequency * xVal));
         Debug.Log("yVal =" + yVal.ToString());
