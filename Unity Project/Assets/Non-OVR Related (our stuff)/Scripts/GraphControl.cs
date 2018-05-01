@@ -8,7 +8,8 @@ public class GraphControl : MonoBehaviour
 {
     Presets presets;//Use curve-presets from Presets script.
 
-    private int xObjectLength; // Amount of Gameobjects to create to represent a curve in Unity.
+    private float lineWidth = 0.1f;
+    private int xLength; // Amount of Gameobjects to create to represent a curve in Unity.
     public bool isCurveAnimated = true; //Animation of curve on/off.
     public bool isCurveLined = true; //LineRenderer on/off.
     public bool isLowFrequencyMode = true; //Turn LowFrequency mode on/off. 
@@ -41,13 +42,13 @@ public class GraphControl : MonoBehaviour
     {
         GameObject waveOutline = (GameObject)Instantiate(wavePrefab, GraphHolderParent.localPosition, GraphHolderParent.localRotation, GraphHolderParent) as GameObject;//Instantiating the pink outline arround points.
 
-        float step = 2f / xObjectLength;//X dimension x Object spacing relationship. 
+        float step = 2f / xLength;//X dimension x Object spacing relationship. 
         Vector3 scale = Vector3.one * step;//All cube points are instantiated between -1 and 1.
         Vector3 pointVec;//Vector needed for the loop.
         pointVec.z = 0;////Z is not needed as we are primarily working with the Y and X dimesions. 
         pointVec.y = 0;//Y dimension. 
 
-        for (int i = 0; i < xObjectLength; i++)//For-loop instantiating points and adding points to the gameobject points list.
+        for (int i = 0; i < xLength; i++)//For-loop instantiating points and adding points to the gameobject points list.
         {
             GameObject point;//This is  for reference.
             pointsList.Add(point = (GameObject)Instantiate(xPoint, GraphHolderParent.localPosition, Quaternion.Euler(0, 90, 0)) as GameObject);
@@ -77,11 +78,11 @@ public class GraphControl : MonoBehaviour
 
     void setXLength(int x) //Function to change the X scaling length. 
     {
-        xObjectLength = x;
+        xLength = x;
         lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
         lineRenderer.widthMultiplier = 0.1f;
-        lineRenderer.positionCount = xObjectLength;
+        lineRenderer.positionCount = xLength;
 
         // A simple 2 color gradient with a fixed alpha of 1.0f.
         float alpha = 1.0f;
@@ -94,7 +95,7 @@ public class GraphControl : MonoBehaviour
         
     }
 
-    Gradient useNewGradient(Color color)//Returns color. 
+    Gradient useNewGradient(Color color)//Returns gradient. 
     {
         //If there is no linerenderer.
 
@@ -105,8 +106,8 @@ public class GraphControl : MonoBehaviour
         //Set in depending on parameter
         lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
         //Make width final variable.
-        lineRenderer.widthMultiplier = 0.1f;
-        lineRenderer.positionCount = xObjectLength;
+        lineRenderer.widthMultiplier = lineWidth;
+        lineRenderer.positionCount = xLength;
 
         // A simple 2 color gradient with a fixed alpha of 1.0f.
         float alpha = 1.0f;
@@ -220,8 +221,8 @@ public class GraphControl : MonoBehaviour
         if (isCurveLined)
         {
             LineRenderer lineRenderer = GetComponent<LineRenderer>();
-            lineRenderer.positionCount = xObjectLength;
-            Vector3[] pointsVecArray = new Vector3[xObjectLength];
+            lineRenderer.positionCount = xLength;
+            Vector3[] pointsVecArray = new Vector3[xLength];
             for (int i = 0; i < pointsList.Count; i++)
             {
                 pointsVecArray[i] = pointsList[i].transform.position;
