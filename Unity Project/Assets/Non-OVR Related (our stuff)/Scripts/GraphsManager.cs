@@ -26,9 +26,9 @@ public class GraphsManager : MonoBehaviour {
     {
         //instantiate
         //sendmessage
-        GameObject GraphHolderParent = (GameObject)Instantiate(GraphHolder) as GameObject;//instanstiating an object of graphholder for each graph
-        GraphHolderParent.transform.rotation = Quaternion.Euler(0, 90, 0);
-        GraphHolderParent.transform.position = new Vector3(0, 0, 0.2f);
+        GameObject GraphHolderParent = (GameObject)Instantiate(GraphHolder, new Vector3(0, 0, 0f), Quaternion.Euler(0, 90, 0)) as GameObject;//instanstiating an object of graphholder for each graph
+        //GraphHolderParent.transform.rotation = Quaternion.Euler(0, 90, 0);
+        //GraphHolderParent.transform.position = new Vector3(0, 0, 0.2f);
 
         //GraphHolderParent.SendMessage("setXLength", xLengthForNextGraph);//Data needed to be sent is: GraphHolderParent.transform, xLength, 
         //GraphHolderParent.SendMessage("createAndInstantiatePoints", GraphHolderParent.transform);//Data needed to be sent is: GraphHolderParent.transform, xLength, 

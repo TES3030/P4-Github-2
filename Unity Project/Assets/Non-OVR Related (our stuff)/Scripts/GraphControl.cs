@@ -44,22 +44,24 @@ public class GraphControl : MonoBehaviour
 
         float step = 2f / xLength;//X dimension x Object spacing relationship. 
         Vector3 scale = Vector3.one * step;//All cube points are instantiated between -1 and 1.
-        Vector3 pointVec;//Vector needed for the loop.
-        pointVec.z = 0.2f;////Z is not needed as we are primarily working with the Y and X dimesions. 
+        Vector3 pointVec = new Vector3(0, 0, 0); //Vector needed for the loop.
+        pointVec.z = 0f;//Z dimension
         pointVec.y = 0;//Y dimension. 
+        pointVec.x = 0;//X is not needed as we are primarily working with the Y and Z dimesions. 
 
         for (int i = 0; i < xLength; i++)//For-loop instantiating points and adding points to the gameobject points list.
         {
             GameObject point;//This is  for reference.
-            pointsList.Add(point = (GameObject)Instantiate(xPoint, GraphHolderParent.localPosition, Quaternion.Euler(0, 90, 0)) as GameObject);
+            pointsList.Add(point = (GameObject)Instantiate(xPoint, GraphHolderParent.localPosition, GraphHolderParent.localRotation, GraphHolderParent) as GameObject);
             //Adding and instantiating points from the xPoint prefab at 90 degrees so it advances along the outline.
 
-            pointVec.x = (i + 0.5f) * step - 1f; //Spacing between X points. 
-            pointVec.y = SetPointYPosition(pointVec.x);
+            pointVec.z = (i + 0.5f) * step - 1f; //Spacing between Z points. 
+            pointVec.y = SetPointYPosition(pointVec.z);
 
             point.transform.localPosition = pointVec;
             point.transform.localScale = scale;
-            point.transform.SetParent(GraphHolderParent.transform, true);
+            //point.transform.SetParent(GraphHolderParent, false);//BUG HERE
+
             //Setting the parent at the end, and stating "true" in order to let the points keep their values.
         }
     }
@@ -237,11 +239,10 @@ public class GraphControl : MonoBehaviour
         {
             for (int i = 0; i < pointsList.Count; i++)
             {
-                //If we use localPosition in this loop it fucks up... I have no idea why, i'll look into it at some point (tobi)
-                Vector3 position = pointsList[i].transform.position;
-                position.y = SetPointYPosition(position.x + Time.time);
+                Vector3 position = pointsList[i].transform.localPosition;
+                position.y = SetPointYPosition(position.z + Time.time);
 
-                pointsList[i].transform.position = position;
+                pointsList[i].transform.localPosition = position;
             }
         }
 
