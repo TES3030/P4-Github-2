@@ -145,7 +145,7 @@ public class GraphControl : MonoBehaviour
     private void Awake()//this goes before start
     {
         presets = new Presets(); //Use curve-presets from Presets script.
-        wavePrefab = (GameObject)Resources.Load("waveOutline", typeof(GameObject));//Loading the prefab from the resources folder in order to access its values.    
+        wavePrefab = (GameObject)Resources.Load("waveOutlineFrame", typeof(GameObject));//Loading the prefab from the resources folder in order to access its values.    
         setXLength(GameObject.Find("GraphsManager").GetComponent<GraphsManager>().xLengthForNextGraph);
 
     }
