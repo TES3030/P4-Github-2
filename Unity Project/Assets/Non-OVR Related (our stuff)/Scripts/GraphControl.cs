@@ -45,7 +45,7 @@ public class GraphControl : MonoBehaviour
         float step = 2f / xLength;//X dimension x Object spacing relationship. 
         Vector3 scale = Vector3.one * step;//All cube points are instantiated between -1 and 1.
         Vector3 pointVec;//Vector needed for the loop.
-        pointVec.z = 0;////Z is not needed as we are primarily working with the Y and X dimesions. 
+        pointVec.z = 0.2f;////Z is not needed as we are primarily working with the Y and X dimesions. 
         pointVec.y = 0;//Y dimension. 
 
         for (int i = 0; i < xLength; i++)//For-loop instantiating points and adding points to the gameobject points list.

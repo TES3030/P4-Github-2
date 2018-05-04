@@ -55,7 +55,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 5, z: 5}
+  m_Size: {x: 0.67, y: 1.39, z: 2.77}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &82343981989530768
 AudioSource:
@@ -173,16 +173,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isCurveAnimated: 1
   isCurveLined: 1
-  isLowFreqMode: 1
-  freqMode: 0
+  isLowFrequencyMode: 1
+  frequencyMode: 0
   isCurveDotted: 0
-  lowFreqScaleFactor: 10
+  lowFrequencyScaleFactor: 10
   xPoint: {fileID: 1507095926771302, guid: 4cd33bf820f1b674a895cba10993e299, type: 2}
   amplitude: 1
   frequency: 2
   curvePresetFunction: 0
-  lowFrequencyColor: {r: 0, g: 1, b: 0, a: 1}
-  highFrequencyColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!114 &114725529542830776
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -199,6 +197,3 @@ MonoBehaviour:
   m_snapOrientation: 0
   m_snapOffset: {fileID: 0}
   m_grabPoints: []
-  m_grabbedKinematic: 0
-  m_grabbedCollider: {fileID: 0}
-  m_grabbedBy: {fileID: 0}
