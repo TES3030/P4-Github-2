@@ -20,25 +20,25 @@ public class GraphControl : MonoBehaviour
 
     public GameObject xPoint; //Prefab from which all points are made.
     private GameObject wavePrefab; //Prefab form which all waveoutlines are made.
-                                   //private GameObject graphHolder; //Prefab form which all grapholders are made.
 
     public float amplitude = 1;//Amplitude of waveform. 
     public float frequency = 2;//Frequency of waveform. 
 
+    //enum for curve presets
     public GraphFunctionName curvePresetFunction;
 
     List<GameObject> pointsList = new List<GameObject>(); //List of all points in a curve. 
 
+    //colors for the graph
     private Color lowFrequencyColor = Color.green;//Default color for Low Frequecy mode is green.
     private Color highFrequencyColor = Color.blue;//Default color for High Frequency mode is blue.
+    private Color fancyColor1 = Color.red;//Default color for High Frequency mode is blue.
+    private Color fancyColor2 = Color.yellow;//Default color for High Frequency mode is blue.
     LineRenderer lineRenderer;
-    Gradient gradient = new Gradient();
+    Gradient gradient = new Gradient();//gradient to be used later
 
-
-
-    //fucntion that creates points for the lsit and instantiates them
-
-    public void createAndInstantiatePoints(Transform GraphHolderParent)//Need to receive xObjectLength and transfrom from this.
+    //function that creates points for the list and instantiates them
+    public void CreateAndInstantiatePoints(Transform GraphHolderParent)//Need to receive xObjectLength and transfrom from this.
     {
         GameObject waveOutline = (GameObject)Instantiate(wavePrefab, GraphHolderParent.localPosition, GraphHolderParent.localRotation, GraphHolderParent) as GameObject;//Instantiating the pink outline arround points.
 
@@ -55,7 +55,7 @@ public class GraphControl : MonoBehaviour
             //Adding and instantiating points from the xPoint prefab at 90 degrees so it advances along the outline.
 
             pointVec.x = (i + 0.5f) * step - 1f; //Spacing between X points. 
-            pointVec.y = setPointYPosition(pointVec.x);
+            pointVec.y = SetPointYPosition(pointVec.x);
 
             point.transform.localPosition = pointVec;
             point.transform.localScale = scale;
@@ -64,19 +64,7 @@ public class GraphControl : MonoBehaviour
         }
     }
 
-    public void ScalePointsOutline(float waveWidth, GameObject wave)//Function. that scales the waveoutline. 
-    {
-        //parameter waveWidth is the distance needed to be between each point - ie. how long should the plane be?
-        //Vector3 temp = wave.transform.localScale;
-        //temp.z = waveWidth;
-        //temp.y *= 3;
-        //wave.transform.localScale = temp;
-        //wave.transform.localScale = scale;
-        //print("planeWidth: "+ pointSpacing + " + " + xPoint.transform.localScale.z + " * " + xObjectLength  + " = " + waveWidth);
-
-    }
-
-    void setXLength(int x) //Function to change the X scaling length. 
+    void SetXLength(int x) //Function to change the X scaling length. 
     {
         xLength = x;
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -95,36 +83,33 @@ public class GraphControl : MonoBehaviour
         
     }
 
-    Gradient useNewGradient(Color color)//Returns gradient. 
+    Gradient UseNewGradient(Color inColor1, Color inColor2)//Returns gradient. 
     {
         //If there is no linerenderer.
-
         if ((gameObject.GetComponent("LineRenderer") as LineRenderer) == null)
         {
             lineRenderer = gameObject.AddComponent<LineRenderer>();
         }
-        //Set in depending on parameter
+        //Perhaps change shader in the future
         lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-        //Make width final variable.
+        //Set width and line-segment amount
         lineRenderer.widthMultiplier = lineWidth;
         lineRenderer.positionCount = xLength;
 
         // A simple 2 color gradient with a fixed alpha of 1.0f.
         float alpha = 1.0f;
-      
+
             gradient.SetKeys(
-                new GradientColorKey[] { new GradientColorKey(color, 0.0f), new GradientColorKey(color, 1.0f) },
+                new GradientColorKey[] { new GradientColorKey(inColor1, 0.0f), new GradientColorKey(inColor2, 1.0f) },
                 new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
                 );
-      
-    
 
         lineRenderer.colorGradient = gradient;
 
         return gradient;
     }
 
-    float setPointYPosition(float x) //Y points postion. 
+    float SetPointYPosition(float x) //Y points postion. 
     {
         float y;
         switch ((int)curvePresetFunction)
@@ -146,43 +131,37 @@ public class GraphControl : MonoBehaviour
     {
         presets = new Presets(); //Use curve-presets from Presets script.
         wavePrefab = (GameObject)Resources.Load("waveOutlineFrame", typeof(GameObject));//Loading the prefab from the resources folder in order to access its values.    
-        setXLength(GameObject.Find("GraphsManager").GetComponent<GraphsManager>().xLengthForNextGraph);
+        SetXLength(GameObject.Find("GraphsManager").GetComponent<GraphsManager>().xLengthForNextGraph);
 
     }
 
     void Start()
     {
-        createAndInstantiatePoints(gameObject.GetComponent<Transform>());
-
-
+        CreateAndInstantiatePoints(gameObject.GetComponent<Transform>());
     }
-
 
     void Update()
     {
-
-
-
         if (isLowFrequencyMode)
         {
-
             switch ((int)frequencyMode)
             {
 
                 case 0: //Low frequency mode and color. 
                     amplitude = Hv_pdint1_AudioLib.gain;
                     frequency = Hv_pdint1_AudioLib.freq / lowFrequencyScaleFactor;
-                    useNewGradient(lowFrequencyColor);
+                    UseNewGradient(lowFrequencyColor, lowFrequencyColor);
                     break;
                 case 1: //High frequency mode and color. 
                     amplitude = Hv_pdint1_AudioLib.gain;
                     frequency = Hv_pdint1_AudioLib.freq;
-                    useNewGradient(highFrequencyColor);
+                    UseNewGradient(highFrequencyColor, highFrequencyColor);
                     break;
                 default: //Default scenario resets to default values. 
                     // if isLowFreqMode == false, return to default state
                     frequency = 2;
                     amplitude = 1;
+                    UseNewGradient(fancyColor1, fancyColor2);
                     isLowFrequencyMode = !isLowFrequencyMode;// dont touch this D:
                     break;
 
@@ -260,7 +239,7 @@ public class GraphControl : MonoBehaviour
             {
                 //If we use localPosition in this loop it fucks up... I have no idea why, i'll look into it at some point (tobi)
                 Vector3 position = pointsList[i].transform.position;
-                position.y = setPointYPosition(position.x + Time.time);
+                position.y = SetPointYPosition(position.x + Time.time);
 
                 pointsList[i].transform.position = position;
             }
