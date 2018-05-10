@@ -103,7 +103,7 @@ public class GraphControl : MonoBehaviour
 
             gradient.SetKeys(
                 new GradientColorKey[] { new GradientColorKey(inColor1, 0.0f), new GradientColorKey(inColor2, 1.0f) },
-                new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
+                new GradientAlphaKey[] { new GradientAlphaKey(alpha, 1.0f), new GradientAlphaKey(alpha, 1.0f) }
                 );
 
         lineRenderer.colorGradient = gradient;
