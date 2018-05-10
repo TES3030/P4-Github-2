@@ -5,7 +5,8 @@ using UnityEngine;
 public class GraphsManager : MonoBehaviour {
 
     public GameObject GraphHolder; //Prefab form which all grapholders are made.
-   
+    public GameObject PresetMenuFab; //Prefab form which all grapholders are made.
+
     [Range(10, 100)] //This makes xLength a slider in the inspector.
     public int xLengthForNextGraph = 80; // Amount of Gameobjects to create to represent a curve in Unity.
 
@@ -18,24 +19,24 @@ public class GraphsManager : MonoBehaviour {
         if (Input.GetKeyDown("backspace"))
         {
             print("Backspace key was pressed");
-            createGraph();
+            CreateGraph();
+        }
+
+        if (Input.GetKeyDown("1"))
+        {
+            print("1 key was pressed");
+            SpawnPresetMenu();
         }
     }
 
-    void createGraph()
+    void CreateGraph()
     {
-        //instantiate
-        //sendmessage
         GameObject GraphHolderParent = (GameObject)Instantiate(GraphHolder, GraphHolder.transform.position, GraphHolder.transform.rotation) as GameObject;//instanstiating an object of graphholder for each graph
-        //GraphHolderParent.transform.rotation = Quaternion.Euler(0, 90, 0);
-        //GraphHolderParent.transform.position = new Vector3(0, 0, 0.2f);
+    }
 
-        //GraphHolderParent.SendMessage("setXLength", xLengthForNextGraph);//Data needed to be sent is: GraphHolderParent.transform, xLength, 
-        //GraphHolderParent.SendMessage("createAndInstantiatePoints", GraphHolderParent.transform);//Data needed to be sent is: GraphHolderParent.transform, xLength, 
-
-        //GameObject waveOutline = (GameObject)Instantiate(wavePrefab, GraphHolderParent.transform.localPosition, GraphHolderParent.transform.localRotation, GraphHolderParent.transform) as GameObject;//instantiating the pink outline arround points
-
-
+    void SpawnPresetMenu()
+    {
+        GameObject PresetMenu = (GameObject)Instantiate(PresetMenuFab, PresetMenuFab.transform.position, PresetMenuFab.transform.rotation) as GameObject;
     }
 
 }
