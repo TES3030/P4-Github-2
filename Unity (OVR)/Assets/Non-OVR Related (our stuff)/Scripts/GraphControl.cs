@@ -26,6 +26,7 @@ public class GraphControl : MonoBehaviour
 
     //enum for curve presets
     public GraphFunctionName curvePresetFunction;
+    public int curvePresetFunctionInt;
 
     List<GameObject> pointsList = new List<GameObject>(); //List of all points in a curve. 
 
@@ -109,6 +110,12 @@ public class GraphControl : MonoBehaviour
         lineRenderer.colorGradient = gradient;
 
         return gradient;
+    }
+
+    void SetPreset(int i)
+    {
+        curvePresetFunction = (GraphFunctionName)i;
+        Debug.Log(curvePresetFunction);
     }
 
     float SetPointYPosition(float x) //Y points postion. 

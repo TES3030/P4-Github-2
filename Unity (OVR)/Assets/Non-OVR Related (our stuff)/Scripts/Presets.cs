@@ -10,7 +10,7 @@ public class Presets : MonoBehaviour {
     public float sine(float xVal, float frequency, float amplitude) 
     {
         yVal = amplitude * Mathf.Sin(frequency * xVal);
-        Debug.Log("yVal =" + yVal.ToString());
+        //Debug.Log("yVal =" + yVal.ToString());
         return yVal; 
     }
 
