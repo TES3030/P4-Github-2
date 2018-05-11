@@ -41,7 +41,7 @@ public class Hv_pdint1_Editor : Editor {
     // freq
     GUILayout.BeginHorizontal();
     float freq = _dsp.GetFloatParameter(Hv_pdint1_AudioLib.Parameter.Freq);
-    float newFreq = EditorGUILayout.Slider("freq", freq, 0.0f, 5000.0f);
+    float newFreq = EditorGUILayout.Slider("freq", freq, 0.0f, 220.0f);
     if (freq != newFreq) {
       _dsp.SetFloatParameter(Hv_pdint1_AudioLib.Parameter.Freq, newFreq);
     }
@@ -83,7 +83,7 @@ public class Hv_pdint1_AudioLib : MonoBehaviour {
   }
   public delegate void FloatMessageReceived(FloatMessage message);
   public FloatMessageReceived FloatReceivedCallback;
-  public static float freq = 220.0f;
+  public static float freq = 20.0f;
   public static float gain = 0.3f;
 
   // internal state
@@ -109,7 +109,7 @@ public class Hv_pdint1_AudioLib : MonoBehaviour {
   public void SetFloatParameter(Hv_pdint1_AudioLib.Parameter param, float x) {
     switch (param) {
       case Parameter.Freq: {
-        x = Mathf.Clamp(x, 0.0f, 2000.0f);
+        x = Mathf.Clamp(x, 0.0f, 220.0f);
         freq = x;
         break;
       }
