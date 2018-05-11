@@ -100,3 +100,4 @@ public class OculusHaptics : MonoBehaviour
         yield return null;
 
     }
+}
