@@ -23,11 +23,10 @@ GameObject:
   - component: {fileID: 82343981989530768}
   - component: {fileID: 114286639392061518}
   - component: {fileID: 114193912007244642}
-  - component: {fileID: 114725529542830776}
   - component: {fileID: 65419205572813476}
   m_Layer: 0
   m_Name: graphHolder
-  m_TagString: Untagged
+  m_TagString: GraphHolder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -251,19 +250,4 @@ MonoBehaviour:
   amplitude: 1
   frequency: 2
   curvePresetFunction: 0
---- !u!114 &114725529542830776
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1180291623146780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02d61468f8b77ae4b92c344bc9a600fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_allowOffhandGrab: 1
-  m_snapPosition: 0
-  m_snapOrientation: 0
-  m_snapOffset: {fileID: 0}
-  m_grabPoints: []
+  curvePresetFunctionInt: 0

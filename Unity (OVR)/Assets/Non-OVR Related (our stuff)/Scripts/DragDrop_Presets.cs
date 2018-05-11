@@ -2,33 +2,59 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DragDrop_Presets : MonoBehaviour {
+public class DragDrop_Presets : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     void OnTriggerEnter(Collider other)
     {
         Debug.Log("Triggered!");
-        if (other.gameObject == GameObject.Find("PresetFrame1"))//this condition should be dynamic as well
+        if (other.gameObject.CompareTag("PresetFrame"))//if the colliders gameobject has the tag "presetframe"
         {
-            //need to identify the correct preset
-            Debug.Log("Triggered PRESET!" + "");
+            GameObject otherGO = other.transform.gameObject;//shortcut for the gameobject
+            switch (otherGO.name)//check the name of the gameobject
+            {
+                case "SineFrame"://is the name sineframe?
+                    Debug.Log("Triggered PRESET! go: " + otherGO.name);
 
-            //then send a message to the script GraphControl and run the "setPreset" with the preset index as a parameter (0,1,2)
-            //GameObject.Find("graphHolder(clone)").SendMessage(SetPreset, index);
+                    //then send a message to the script GraphControl and run the "setPreset" with the preset index as a parameter (3,1,2)
+                    if (gameObject.transform.parent.CompareTag("GraphHolder"))
+                        gameObject.transform.parent.SendMessage("SetPreset", 3);
 
-            //then reset position, depending on what preset index;
-            //ResetPos();
+                    //then reset position
+                    otherGO.SendMessage("ResetPos");
+                    break;
+
+                case "SquareFrame"://is the name squareframe?
+                    Debug.Log("Triggered PRESET! go: " + otherGO.name);
+
+                    if (gameObject.transform.parent.CompareTag("GraphHolder"))
+                        gameObject.transform.parent.SendMessage("SetPreset", 1);
+
+                    otherGO.SendMessage("ResetPos");
+                    break;
+
+                case "SawtoothFrame"://is the name sawtoothframe?
+                    Debug.Log("Triggered PRESET! go: " + otherGO.name);
+
+                    if (gameObject.transform.parent.CompareTag("GraphHolder"))
+                        gameObject.transform.parent.SendMessage("SetPreset", 2);
+
+                    otherGO.SendMessage("ResetPos");
+                    break;
+
+                default:
+                    break;
+
+            }
+
         }
     }
 
+    void OnTriggerStay(Collider other)
+    {
+        GameObject otherGO = other.transform.gameObject;//shortcut for the gameobject
+        otherGO.SendMessage("ResetPos");
 
+    }
 }

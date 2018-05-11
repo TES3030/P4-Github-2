@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - PresetFrame
+  - Sine
+  - Square
+  - Sawtooth
+  - GraphHolder
+  - WaveFrame
   layers:
   - Default
   - TransparentFX

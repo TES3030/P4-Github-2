@@ -115,7 +115,7 @@ public class GraphControl : MonoBehaviour
     void SetPreset(int i)
     {
         curvePresetFunction = (GraphFunctionName)i;
-        Debug.Log(curvePresetFunction);
+        Debug.Log("BACON "+curvePresetFunction);
     }
 
     float SetPointYPosition(float x) //Y points postion. 
@@ -124,13 +124,13 @@ public class GraphControl : MonoBehaviour
         switch ((int)curvePresetFunction)
         {
             case 1: //Square wave.
-                y = presets.squareWave(x, frequency, amplitude);
+                y = presets.SquareWave(x, frequency, amplitude);
                 break;
             case 2: //Sawtooth wave. 
-                y = presets.sawTooth(x, frequency, amplitude);
+                y = presets.SawtoothWave(x, frequency, amplitude);
                 break;
             default: //Sine wave. 
-                y = presets.sine(x, frequency, amplitude);
+                y = presets.SineWave(x, frequency, amplitude);
                 break;
         }
         return y;
