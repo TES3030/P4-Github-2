@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class DragDrop_Presets : MonoBehaviour
 {
-
+    GameObject R, L;
+    void Start()
+    {
+        R = GameObject.Find("R");
+        L = GameObject.Find("L");
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -54,6 +59,8 @@ public class DragDrop_Presets : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         GameObject otherGO = other.transform.gameObject;//shortcut for the gameobject
+        R.SendMessage("DropObject");
+        L.SendMessage("DropObject");//this isnt the best solution but good for now
         otherGO.SendMessage("ResetPos");
 
     }

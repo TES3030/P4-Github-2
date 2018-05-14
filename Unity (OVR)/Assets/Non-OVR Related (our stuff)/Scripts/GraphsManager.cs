@@ -22,7 +22,7 @@ public class GraphsManager : MonoBehaviour {
             CreateGraph();
         }
 
-        if (Input.GetKeyDown("1"))
+        if (Input.GetKeyDown("o"))
         {
             print("1 key was pressed");
             SpawnPresetMenu();

@@ -18,10 +18,10 @@ public class Hovering : MonoBehaviour
     {     
         for (int i = 0; i<goList.Length; i++)
         {
-            tempVal = goList[i].transform.localPosition.y;
-            tempPos = goList[i].transform.localPosition;
+            tempVal = goList[i].transform.position.y;
+            tempPos = goList[i].transform.position;
             tempPos.y = tempVal + amplitude * Mathf.Cos(speed * Time.time);
-            goList[i].transform.localPosition = tempPos;
+            goList[i].transform.position = tempPos;
         }
         
     }
