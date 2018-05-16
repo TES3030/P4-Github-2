@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class GraphsManager : MonoBehaviour {
 
-    public GameObject GraphHolder; //Prefab form which all grapholders are made.
-    public GameObject PresetMenuFab; //Prefab form which all grapholders are made.
+    private GameObject GraphHolder; //Prefab form which all grapholders are made.
+    private GameObject PresetMenuFab; //Prefab form which all grapholders are made.
 
     [Range(10, 100)] //This makes xLength a slider in the inspector.
     public int xLengthForNextGraph = 80; // Amount of Gameobjects to create to represent a curve in Unity.
 
     private float amplitude = 1;//Amplitude of waveform. 
     private float frequency = 2;//Frequency of waveform. 
+
+    void Start()
+    {
+        GraphHolder = (GameObject)Resources.Load("graphHolder", typeof(GameObject));//Loading the prefab from the resources folder in order to access its values.    
+        PresetMenuFab = (GameObject)Resources.Load("PresetMenuHolder", typeof(GameObject));//Loading the prefab from the resources folder in order to access its values.    
+    }
 
     // Update is called once per frame
     void Update () {

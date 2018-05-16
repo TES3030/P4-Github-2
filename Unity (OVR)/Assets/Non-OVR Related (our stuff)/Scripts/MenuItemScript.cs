@@ -37,10 +37,7 @@ public class MenuItemScript : MonoBehaviour
         em3 = ps3.emission;
         em4 = ps4.emission;
 
-        mom = GameObject.Find("WaveFrame");
-
-        childColors = mom.GetComponentsInChildren<MeshRenderer>();
-        //startMat = mom.GetComponentInChildren<Material>();
+    
 
     }
 

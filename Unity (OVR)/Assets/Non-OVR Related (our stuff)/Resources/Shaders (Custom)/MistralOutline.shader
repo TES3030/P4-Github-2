@@ -5,9 +5,9 @@
  {
      Properties 
      {
-         _Outline ( "The scale of the Outline", Range ( 0, 0.1 ) ) = 0.02
-         _Factor ( "The Factor", Range ( 0, 0.1) ) = 0.02
-         _Color ( "The Color of your Outline", Color ) = (1, 1, 1, 1)
+         _Outline ( "The scale of the Outline", Range ( 0, 0.9 ) ) = 0.02
+         _Factor ( "The Factor", Range ( 0, 0.5) ) = 0.02
+         _Color ( "The Color of your Outline", Color ) = (0, 1, 0, 1)
      }
  
      SubShader
