@@ -6,8 +6,10 @@ public class MenuItemScript : MonoBehaviour
 {
     GameObject mom;
     Renderer[] childColors;
+    Material startMat;
 
     Vector3 startPos;
+    Quaternion startRot;
     ParticleSystem ps1;
     ParticleSystem ps2;
     ParticleSystem ps3;
@@ -22,7 +24,8 @@ public class MenuItemScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        startPos = gameObject.transform.localPosition;
+        startPos = gameObject.transform.position;
+        startRot = gameObject.transform.rotation;
 
         ps1 = GameObject.Find("ParticleEmitter1").GetComponent<ParticleSystem>();
         ps2 = GameObject.Find("ParticleEmitter2").GetComponent<ParticleSystem>();
@@ -34,16 +37,14 @@ public class MenuItemScript : MonoBehaviour
         em3 = ps3.emission;
         em4 = ps4.emission;
 
-        mom = GameObject.Find("WaveFrame");
-
-        childColors = mom.GetComponentsInChildren<MeshRenderer>();
+    
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.transform.localPosition != startPos)
+        if (gameObject.transform.position != startPos)
         {
             //Material mat = mom.GetComponentInChildren<Renderer>().material;
             foreach (Renderer color in childColors)
@@ -70,18 +71,13 @@ public class MenuItemScript : MonoBehaviour
                 color.material.color = Color.gray;
             }
 
-            /*
-            for (int i = 0; i < 3; i++)
-            {
-                psEm[i].enabled = false;
-            }
-            */
         }
 
     }
 
     void ResetPos()
     {
-        gameObject.transform.localPosition = startPos;
+        gameObject.transform.position = startPos;
+        gameObject.transform.rotation = startRot;
     }
 }

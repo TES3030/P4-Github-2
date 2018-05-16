@@ -18,7 +18,7 @@ public class GraphControl : MonoBehaviour
 
     public float lowFrequencyScaleFactor = 10; //Determine scalefactor between lowfreqmode and highfreqmode.
 
-    public GameObject xPoint; //Prefab from which all points are made.
+    private GameObject xPoint; //Prefab from which all points are made.
     private GameObject wavePrefab; //Prefab form which all waveoutlines are made.
 
     public float amplitude = 1;//Amplitude of waveform. 
@@ -139,7 +139,8 @@ public class GraphControl : MonoBehaviour
     private void Awake()//this goes before start
     {
         presets = new Presets(); //Use curve-presets from Presets script.
-        wavePrefab = (GameObject)Resources.Load("waveOutlineFrame", typeof(GameObject));//Loading the prefab from the resources folder in order to access its values.    
+        wavePrefab = (GameObject)Resources.Load("waveOutlineFrame", typeof(GameObject));//Loading the prefab from the resources folder in order to access its values.
+        xPoint = (GameObject)Resources.Load("xPoint", typeof(GameObject));//Loading the prefab from the resources folder in order to access its values.    
         SetXLength(GameObject.Find("GraphsManager").GetComponent<GraphsManager>().xLengthForNextGraph);
 
     }
