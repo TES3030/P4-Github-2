@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DragDrop_Presets : MonoBehaviour
+public class WaveTrigger : MonoBehaviour
 {
     GameObject R, L;
+    GameObject[] presetArray;
+
     void Start()
     {
         R = GameObject.Find("R");
         L = GameObject.Find("L");
+
+        presetArray = GameObject.FindGameObjectsWithTag("PresetFrame");
     }
 
     void OnTriggerEnter(Collider other)
@@ -52,23 +56,26 @@ public class DragDrop_Presets : MonoBehaviour
                     break;
 
             }
-
         }
     }
 
     void OnTriggerStay(Collider other)//this collider is a preset
     {
-
         if (other.transform.gameObject.CompareTag("PresetFrame"))//if "other" collider is a preset do this
         {
             GameObject otherGO = other.transform.gameObject;//shortcut for the gameobject aka preset
             R.SendMessage("DropObject");
             L.SendMessage("DropObject");//this isnt the best solution but good for now
             otherGO.SendMessage("ResetPos");
+            //set all frames to active
+            for (int i = 0; i<presetArray.Length;i++)
+            {
+                presetArray[i].SetActive(true);
+            }
+
+            //then set current to false
+            otherGO.SetActive(false);
         }
-        
-
-
 
     }
 }

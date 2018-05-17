@@ -36,12 +36,11 @@ public class GrabbedGlow : MonoBehaviour
     void Grabbed(bool isPreset)
     {
 
-
         //if the gameobject with this script on it is a preset run following code
         if (isPreset)
         {
 
-            //show outline on waveframe
+            //show outline on the actual waveframe
             Renderer[] children;
             children = GameObject.FindGameObjectWithTag("WaveFrame").GetComponentsInChildren<Renderer>();
             for (int i = 0; i < children.Length; i++)
@@ -53,11 +52,8 @@ public class GrabbedGlow : MonoBehaviour
 
     void NotGrabbed(bool isPreset)
     {
-
-
         if (isPreset)
         {
-
             //show outline on waveframe
             Renderer[] children;
             children = GameObject.FindGameObjectWithTag("WaveFrame").GetComponentsInChildren<Renderer>();
@@ -65,8 +61,6 @@ public class GrabbedGlow : MonoBehaviour
             {
                 children[i].material = startFrameMat;
             }
-
         }
-
     }
 }

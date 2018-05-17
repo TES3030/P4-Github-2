@@ -34,7 +34,7 @@ public class Grab : MonoBehaviour {
             grabbedObject = hits[closestHit].transform.gameObject;
             grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
 
-            GrabHint(grabbedObject);
+            ObjectGrabbed(grabbedObject);
 
             //grabbedObject.transform.position = transform.position;
             //grabbedObject.transform.parent = transform;
@@ -54,13 +54,13 @@ public class Grab : MonoBehaviour {
             grabbedObject.GetComponent<Rigidbody>().velocity = OVRInput.GetLocalControllerVelocity(controller);
             grabbedObject.GetComponent<Rigidbody>().angularVelocity = GetAngularVeclocity();
 
-            ExitGrabHint(grabbedObject);
+            ObjectGrabbedExit(grabbedObject);
             
             grabbedObject = null;
         }
     }
 
-    void GrabHint(GameObject objectGrabbed)
+    void ObjectGrabbed(GameObject objectGrabbed)
     {
         if (grabbedObject.CompareTag("PresetFrame"))
         {
@@ -73,7 +73,7 @@ public class Grab : MonoBehaviour {
         }*/
     }
 
-    void ExitGrabHint(GameObject objectGrabbed)
+    void ObjectGrabbedExit(GameObject objectGrabbed)
     {
         if (grabbedObject.CompareTag("PresetFrame"))
         {
@@ -87,15 +87,6 @@ public class Grab : MonoBehaviour {
             }*/
     }
 
-    void HoverGlow(GameObject hover)
-    {
-        hover.SendMessage("GrabbableTarget");
-    }
-
-    void ExitHoverGlow(GameObject hover)
-    {
-        hover.SendMessage("NotGrabbableTarget");
-    }
 
     Vector3 GetAngularVeclocity()
     {
@@ -122,18 +113,28 @@ public class Grab : MonoBehaviour {
         if (grabbing && Input.GetAxis(buttonName) < 1)
         {
             DropObject();
-        }
-            
-            
+        }    
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!grabbing && Input.GetAxis(buttonName) < 1 || grabbing)
+        //if (!grabbing && Input.GetAxis(buttonName) < 1 || grabbing)
+        if (!grabbing)
         {
-            HoverGlow(other.transform.gameObject);
+            other.transform.gameObject.SendMessage("GrabbableTarget");
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(!grabbing)
+        {
+            if(other.transform.gameObject.CompareTag("PresetFrame"))
+            other.transform.gameObject.SendMessage("NotGrabbableTarget");
+        }
+        
+    }
+
 
     private void OnTriggerStay(Collider other)
     {
@@ -145,10 +146,5 @@ public class Grab : MonoBehaviour {
 
             //alter ampl / freq
         }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        ExitHoverGlow(other.transform.gameObject);
     }
 }
