@@ -5,7 +5,7 @@ public class Hovering : MonoBehaviour
 {
     GameObject[] goList;
 
-    public float amplitude = 0.001f;          //Set in Inspector 
+    public float amplitude = 0.01f;          //Set in Inspector 
     public float speed = 1;                  //Set in Inspector 
     public float tempVal;
     public Vector3 tempPos;

@@ -56,12 +56,19 @@ public class DragDrop_Presets : MonoBehaviour
         }
     }
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerStay(Collider other)//this collider is a preset
     {
-        GameObject otherGO = other.transform.gameObject;//shortcut for the gameobject
-        R.SendMessage("DropObject");
-        L.SendMessage("DropObject");//this isnt the best solution but good for now
-        otherGO.SendMessage("ResetPos");
+
+        if (other.transform.gameObject.CompareTag("PresetFrame"))//if "other" collider is a preset do this
+        {
+            GameObject otherGO = other.transform.gameObject;//shortcut for the gameobject aka preset
+            R.SendMessage("DropObject");
+            L.SendMessage("DropObject");//this isnt the best solution but good for now
+            otherGO.SendMessage("ResetPos");
+        }
+        
+
+
 
     }
 }
