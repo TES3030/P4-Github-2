@@ -21,6 +21,11 @@ public class WaveTrigger : MonoBehaviour
         if (other.gameObject.CompareTag("PresetFrame"))//if the colliders gameobject has the tag "presetframe"
         {
             GameObject otherGO = other.transform.gameObject;//shortcut for the gameobject
+                                                            
+            //call particlesystem on colliders presets particlesystem
+            otherGO.GetComponentInChildren<ParticleSystem>().Clear();
+            otherGO.GetComponentInChildren<ParticleSystem>().Play();
+
             switch (otherGO.name)//check the name of the gameobject
             {
                 case "SineFrame"://is the name sineframe?

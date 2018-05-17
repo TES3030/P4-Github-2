@@ -21,6 +21,13 @@ public class MenuItemScript : MonoBehaviour
     ParticleSystem.EmissionModule em4;
     //public ParticleSystem.EmissionModule[] psEm = new ps.emission[4];
 
+
+    void ResetPos()
+    {
+        gameObject.transform.position = startPos;
+        gameObject.transform.rotation = startRot;
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -78,9 +85,5 @@ public class MenuItemScript : MonoBehaviour
 
     }
 
-    void ResetPos()
-    {
-        gameObject.transform.position = startPos;
-        gameObject.transform.rotation = startRot;
-    }
+  
 }
