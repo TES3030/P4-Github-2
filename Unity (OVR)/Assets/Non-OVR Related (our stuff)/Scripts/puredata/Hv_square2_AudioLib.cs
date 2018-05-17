@@ -40,21 +40,21 @@ using AOT;
 #if UNITY_EDITOR
 using UnityEditor;
 
-[CustomEditor(typeof(Hv_square_AudioLib))]
-public class Hv_square_Editor : Editor {
+[CustomEditor(typeof(Hv_square2_AudioLib))]
+public class Hv_square2_Editor : Editor {
 
-  [MenuItem("Heavy/square")]
-  static void CreateHv_square() {
+  [MenuItem("Heavy/square2")]
+  static void CreateHv_square2() {
     GameObject target = Selection.activeGameObject;
     if (target != null) {
-      target.AddComponent<Hv_square_AudioLib>();
+      target.AddComponent<Hv_square2_AudioLib>();
     }
   }
   
-  private Hv_square_AudioLib _dsp;
+  private Hv_square2_AudioLib _dsp;
 
   private void OnEnable() {
-    _dsp = target as Hv_square_AudioLib;
+    _dsp = target as Hv_square2_AudioLib;
   }
 
   public override void OnInspectorGUI() {
@@ -72,19 +72,19 @@ public class Hv_square_Editor : Editor {
     
     // freq
     GUILayout.BeginHorizontal();
-    float freq = _dsp.GetFloatParameter(Hv_square_AudioLib.Parameter.Freq);
-    float newFreq = EditorGUILayout.Slider("freq", freq, 100.0f, 2000.0f);
+    float freq = _dsp.GetFloatParameter(Hv_square2_AudioLib.Parameter.Freq);
+    float newFreq = EditorGUILayout.Slider("freq", freq, 50.0f, 2000.0f);
     if (freq != newFreq) {
-      _dsp.SetFloatParameter(Hv_square_AudioLib.Parameter.Freq, newFreq);
+      _dsp.SetFloatParameter(Hv_square2_AudioLib.Parameter.Freq, newFreq);
     }
     GUILayout.EndHorizontal();
     
     // gain
     GUILayout.BeginHorizontal();
-    float gain = _dsp.GetFloatParameter(Hv_square_AudioLib.Parameter.Gain);
+    float gain = _dsp.GetFloatParameter(Hv_square2_AudioLib.Parameter.Gain);
     float newGain = EditorGUILayout.Slider("gain", gain, 0.0f, 1.0f);
     if (gain != newGain) {
-      _dsp.SetFloatParameter(Hv_square_AudioLib.Parameter.Gain, newGain);
+      _dsp.SetFloatParameter(Hv_square2_AudioLib.Parameter.Gain, newGain);
     }
     GUILayout.EndHorizontal();
     EditorGUI.indentLevel--;
@@ -93,16 +93,16 @@ public class Hv_square_Editor : Editor {
 #endif // UNITY_EDITOR
 
 [RequireComponent (typeof (AudioSource))]
-public class Hv_square_AudioLib : MonoBehaviour {
+public class Hv_square2_AudioLib : MonoBehaviour {
   
   // Parameters are used to send float messages into the patch context (thread-safe).
   // Example usage:
   /*
     void Start () {
-        Hv_square_AudioLib script = GetComponent<Hv_square_AudioLib>();
+        Hv_square2_AudioLib script = GetComponent<Hv_square2_AudioLib>();
         // Get and set a parameter
-        float freq = script.GetFloatParameter(Hv_square_AudioLib.Parameter.Freq);
-        script.SetFloatParameter(Hv_square_AudioLib.Parameter.Freq, freq + 0.1f);
+        float freq = script.GetFloatParameter(Hv_square2_AudioLib.Parameter.Freq);
+        script.SetFloatParameter(Hv_square2_AudioLib.Parameter.Freq, freq + 0.1f);
     }
   */
   public enum Parameter : uint {
@@ -114,12 +114,12 @@ public class Hv_square_AudioLib : MonoBehaviour {
   // Example usage:
   /*
     void Start () {
-        Hv_square_AudioLib script = GetComponent<Hv_square_AudioLib>();
+        Hv_square2_AudioLib script = GetComponent<Hv_square2_AudioLib>();
         script.RegisterSendHook();
         script.FloatReceivedCallback += OnFloatMessage;
     }
 
-    void OnFloatMessage(Hv_square_AudioLib.FloatMessage message) {
+    void OnFloatMessage(Hv_square2_AudioLib.FloatMessage message) {
         Debug.Log(message.receiverName + ": " + message.value);
     }
   */
@@ -134,11 +134,11 @@ public class Hv_square_AudioLib : MonoBehaviour {
   }
   public delegate void FloatMessageReceived(FloatMessage message);
   public FloatMessageReceived FloatReceivedCallback;
-  public float freq = 500.0f;
-  public float gain = 0.5f;
+  public float freq = 110.0f;
+  public float gain = 0.3f;
 
   // internal state
-  private Hv_square_Context _context;
+  private Hv_square2_Context _context;
 
   public bool IsInstantiated() {
     return (_context != null);
@@ -148,8 +148,8 @@ public class Hv_square_AudioLib : MonoBehaviour {
     _context.RegisterSendHook();
   }
   
-  // see Hv_square_AudioLib.Parameter for definitions
-  public float GetFloatParameter(Hv_square_AudioLib.Parameter param) {
+  // see Hv_square2_AudioLib.Parameter for definitions
+  public float GetFloatParameter(Hv_square2_AudioLib.Parameter param) {
     switch (param) {
       case Parameter.Freq: return freq;
       case Parameter.Gain: return gain;
@@ -157,10 +157,10 @@ public class Hv_square_AudioLib : MonoBehaviour {
     }
   }
 
-  public void SetFloatParameter(Hv_square_AudioLib.Parameter param, float x) {
+  public void SetFloatParameter(Hv_square2_AudioLib.Parameter param, float x) {
     switch (param) {
       case Parameter.Freq: {
-        x = Mathf.Clamp(x, 100.0f, 2000.0f);
+        x = Mathf.Clamp(x, 50.0f, 2000.0f);
         freq = x;
         break;
       }
@@ -176,7 +176,7 @@ public class Hv_square_AudioLib : MonoBehaviour {
   
   public void FillTableWithMonoAudioClip(string tableName, AudioClip clip) {
     if (clip.channels > 1) {
-      Debug.LogWarning("Hv_square_AudioLib: Only loading first channel of '" +
+      Debug.LogWarning("Hv_square2_AudioLib: Only loading first channel of '" +
           clip.name + "' into table '" +
           tableName + "'. Multi-channel files are not supported.");
     }
@@ -190,7 +190,7 @@ public class Hv_square_AudioLib : MonoBehaviour {
   }
 
   private void Awake() {
-    _context = new Hv_square_Context((double) AudioSettings.outputSampleRate);
+    _context = new Hv_square2_Context((double) AudioSettings.outputSampleRate);
   }
   
   private void Start() {
@@ -201,7 +201,7 @@ public class Hv_square_AudioLib : MonoBehaviour {
   private void Update() {
     // retreive sent messages
     if (_context.IsSendHookRegistered()) {
-      Hv_square_AudioLib.FloatMessage tempMessage;
+      Hv_square2_AudioLib.FloatMessage tempMessage;
       while ((tempMessage = _context.msgQueue.GetNextMessage()) != null) {
         FloatReceivedCallback(tempMessage);
       }
@@ -214,27 +214,27 @@ public class Hv_square_AudioLib : MonoBehaviour {
   }
 }
 
-class Hv_square_Context {
+class Hv_square2_Context {
 
 #if UNITY_IOS && !UNITY_EDITOR
   private const string _dllName = "__Internal";
 #else
-  private const string _dllName = "Hv_square_AudioLib";
+  private const string _dllName = "Hv_square2_AudioLib";
 #endif
 
   // Thread-safe message queue
   public class SendMessageQueue {
     private readonly object _msgQueueSync = new object();
-    private readonly Queue<Hv_square_AudioLib.FloatMessage> _msgQueue = new Queue<Hv_square_AudioLib.FloatMessage>();
+    private readonly Queue<Hv_square2_AudioLib.FloatMessage> _msgQueue = new Queue<Hv_square2_AudioLib.FloatMessage>();
 
-    public Hv_square_AudioLib.FloatMessage GetNextMessage() {
+    public Hv_square2_AudioLib.FloatMessage GetNextMessage() {
       lock (_msgQueueSync) {
         return (_msgQueue.Count != 0) ? _msgQueue.Dequeue() : null;
       }
     }
 
     public void AddMessage(string receiverName, float value) {
-      Hv_square_AudioLib.FloatMessage msg = new Hv_square_AudioLib.FloatMessage(receiverName, value);
+      Hv_square2_AudioLib.FloatMessage msg = new Hv_square2_AudioLib.FloatMessage(receiverName, value);
       lock (_msgQueueSync) {
         _msgQueue.Enqueue(msg);
       }
@@ -247,7 +247,7 @@ class Hv_square_Context {
   private SendHook _sendHook = null;
 
   [DllImport (_dllName)]
-  private static extern IntPtr hv_square_new_with_options(double sampleRate, int poolKb, int inQueueKb, int outQueueKb);
+  private static extern IntPtr hv_square2_new_with_options(double sampleRate, int poolKb, int inQueueKb, int outQueueKb);
 
   [DllImport (_dllName)]
   private static extern int hv_processInlineInterleaved(IntPtr ctx,
@@ -308,14 +308,14 @@ class Hv_square_Context {
 
   private delegate void SendHook(IntPtr context, string sendName, uint sendHash, IntPtr message);
 
-  public Hv_square_Context(double sampleRate, int poolKb=10, int inQueueKb=2, int outQueueKb=2) {
+  public Hv_square2_Context(double sampleRate, int poolKb=10, int inQueueKb=2, int outQueueKb=2) {
     gch = GCHandle.Alloc(msgQueue);
-    _context = hv_square_new_with_options(sampleRate, poolKb, inQueueKb, outQueueKb);
+    _context = hv_square2_new_with_options(sampleRate, poolKb, inQueueKb, outQueueKb);
     hv_setPrintHook(_context, new PrintHook(OnPrint));
     hv_setUserData(_context, GCHandle.ToIntPtr(gch));
   }
 
-  ~Hv_square_Context() {
+  ~Hv_square2_Context() {
     hv_delete(_context);
     GC.KeepAlive(_context);
     GC.KeepAlive(_sendHook);
