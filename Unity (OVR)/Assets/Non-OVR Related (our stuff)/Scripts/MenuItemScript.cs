@@ -27,6 +27,7 @@ public class MenuItemScript : MonoBehaviour
         startPos = gameObject.transform.position;
         startRot = gameObject.transform.rotation;
 
+        /*
         ps1 = GameObject.Find("ParticleEmitter1").GetComponent<ParticleSystem>();
         ps2 = GameObject.Find("ParticleEmitter2").GetComponent<ParticleSystem>();
         ps3 = GameObject.Find("ParticleEmitter3").GetComponent<ParticleSystem>();
@@ -36,7 +37,7 @@ public class MenuItemScript : MonoBehaviour
         em2 = ps2.emission;
         em3 = ps3.emission;
         em4 = ps4.emission;
-
+        */
     
 
     }
@@ -44,6 +45,7 @@ public class MenuItemScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (gameObject.transform.position != startPos)
         {
             //Material mat = mom.GetComponentInChildren<Renderer>().material;
@@ -72,6 +74,7 @@ public class MenuItemScript : MonoBehaviour
             }
 
         }
+        */
 
     }
 
