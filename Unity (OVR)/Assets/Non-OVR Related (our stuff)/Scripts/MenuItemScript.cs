@@ -21,19 +21,11 @@ public class MenuItemScript : MonoBehaviour
     ParticleSystem.EmissionModule em4;
     //public ParticleSystem.EmissionModule[] psEm = new ps.emission[4];
 
-
-    void ResetPos()
-    {
-        gameObject.transform.position = startPos;
-        gameObject.transform.rotation = startRot;
-    }
-
     // Use this for initialization
     void Start()
     {
         startPos = gameObject.transform.position;
         startRot = gameObject.transform.rotation;
-
         /*
         ps1 = GameObject.Find("ParticleEmitter1").GetComponent<ParticleSystem>();
         ps2 = GameObject.Find("ParticleEmitter2").GetComponent<ParticleSystem>();
@@ -51,8 +43,7 @@ public class MenuItemScript : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        /*
+    {/*
         if (gameObject.transform.position != startPos)
         {
             //Material mat = mom.GetComponentInChildren<Renderer>().material;
@@ -79,11 +70,15 @@ public class MenuItemScript : MonoBehaviour
             {
                 color.material.color = Color.gray;
             }
+            
 
-        }
-        */  
+        }*/
 
     }
 
-  
+    void ResetPos()
+    {
+        gameObject.transform.position = startPos;
+        gameObject.transform.rotation = startRot;
+    }
 }

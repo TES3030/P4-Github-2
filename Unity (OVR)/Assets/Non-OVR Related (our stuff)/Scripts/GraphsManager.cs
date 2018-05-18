@@ -13,6 +13,12 @@ public class GraphsManager : MonoBehaviour {
     private float amplitude = 1;//Amplitude of waveform. 
     private float frequency = 2;//Frequency of waveform. 
 
+    void Start()
+    {
+        GraphHolder = (GameObject)Resources.Load("graphHolder", typeof(GameObject));//Loading the prefab from the resources folder in order to access its values.   
+        PresetMenuFab = (GameObject)Resources.Load("PresetMenuHolder", typeof(GameObject));//Loading the prefab from the resources folder in order to access its values. 
+    }
+
     // Update is called once per frame
     void Update () {
 
@@ -27,12 +33,6 @@ public class GraphsManager : MonoBehaviour {
             print("o key was pressed");
             SpawnPresetMenu();
         }
-    }
-
-    void Start()
-    {
-        GraphHolder = (GameObject)Resources.Load("graphHolder", typeof(GameObject));//Loading the prefab from the resources folder in order to access its values.   
-        PresetMenuFab = (GameObject)Resources.Load("PresetMenuHolder", typeof(GameObject));//Loading the prefab from the resources folder in order to access its values.  
     }
 
     void CreateGraph()

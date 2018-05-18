@@ -18,7 +18,7 @@ public class GraphControl : MonoBehaviour
 
     public float lowFrequencyScaleFactor = 10; //Determine scalefactor between lowfreqmode and highfreqmode.
 
-    private GameObject xPoint; //Prefab from which all points are made.
+    public GameObject xPoint; //Prefab from which all points are made.
     private GameObject wavePrefab; //Prefab form which all waveoutlines are made.
 
     public float amplitude = 1;//Amplitude of waveform. 
@@ -83,7 +83,6 @@ public class GraphControl : MonoBehaviour
             new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
             );
         lineRenderer.colorGradient = gradient;
-        
     }
 
     Gradient UseNewGradient(Color inColor1, Color inColor2)//Returns gradient. 
@@ -103,7 +102,7 @@ public class GraphControl : MonoBehaviour
         float alpha = 1.0f;
 
             gradient.SetKeys(
-                new GradientColorKey[] { new GradientColorKey(inColor1, 0.0f), new GradientColorKey(inColor2, 1.0f) },
+                new GradientColorKey[] { new GradientColorKey(inColor1, 1.0f), new GradientColorKey(inColor2, 1.0f) },
                 new GradientAlphaKey[] { new GradientAlphaKey(alpha, 1.0f), new GradientAlphaKey(alpha, 1.0f) }
                 );
 
@@ -139,8 +138,7 @@ public class GraphControl : MonoBehaviour
     private void Awake()//this goes before start
     {
         presets = new Presets(); //Use curve-presets from Presets script.
-        wavePrefab = (GameObject)Resources.Load("waveOutlineFrame", typeof(GameObject));//Loading the prefab from the resources folder in order to access its values.  
-        xPoint = (GameObject)Resources.Load("xPoint", typeof(GameObject));//Loading the prefab from the resources folder in order to access its values.  
+        wavePrefab = (GameObject)Resources.Load("waveOutlineFrame", typeof(GameObject));//Loading the prefab from the resources folder in order to access its values.    
         SetXLength(GameObject.Find("GraphsManager").GetComponent<GraphsManager>().xLengthForNextGraph);
 
     }

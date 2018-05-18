@@ -15,6 +15,10 @@ public class Grab : MonoBehaviour {
 
     private Quaternion lastRotation, currentRotation;
 
+
+
+
+
     void GrabObject()
     {
         grabbing = true;
@@ -55,7 +59,7 @@ public class Grab : MonoBehaviour {
             grabbedObject.GetComponent<Rigidbody>().angularVelocity = GetAngularVeclocity();
 
             ObjectGrabbedExit(grabbedObject);
-            
+
             grabbedObject = null;
         }
     }
@@ -87,6 +91,15 @@ public class Grab : MonoBehaviour {
             }*/
     }
 
+    void HoverGlow(GameObject hover)
+    {
+        hover.SendMessage("GrabbableTarget");
+    }
+
+    void ExitHoverGlow(GameObject hover)
+    {
+        hover.SendMessage("NotGrabbableTarget");
+    }
 
     Vector3 GetAngularVeclocity()
     {
@@ -94,7 +107,12 @@ public class Grab : MonoBehaviour {
         return new Vector3(Mathf.DeltaAngle(0, deltaRotation.eulerAngles.x), Mathf.DeltaAngle(0, deltaRotation.eulerAngles.y), Mathf.DeltaAngle(0, deltaRotation.eulerAngles.z));
     }
 
-	// Update is called once per frame
+    
+
+
+
+    // Update is called once per frame
+
 	void Update () {
         
 
@@ -113,7 +131,9 @@ public class Grab : MonoBehaviour {
         if (grabbing && Input.GetAxis(buttonName) < 1)
         {
             DropObject();
-        }    
+        }
+            
+            
     }
 
     private void OnTriggerEnter(Collider other)
@@ -127,24 +147,25 @@ public class Grab : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if(!grabbing)
+        if (!grabbing)
         {
-            if(other.transform.gameObject.CompareTag("PresetFrame"))
-            other.transform.gameObject.SendMessage("NotGrabbableTarget");
+            if (other.transform.gameObject.CompareTag("PresetFrame"))
+                other.transform.gameObject.SendMessage("NotGrabbableTarget");
         }
-        
     }
-
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.transform.gameObject.CompareTag("WaveEditArea"))
+        /*
+        if (leftHand==true && rightHand==true && Input.GetAxis(buttonName)==1)
         {
-            //check if both controllers in here...
+            
 
             print("I'm Altering the wave!");
 
-            //alter ampl / freq
-        }
+            
+        } */
     }
+
+    
 }

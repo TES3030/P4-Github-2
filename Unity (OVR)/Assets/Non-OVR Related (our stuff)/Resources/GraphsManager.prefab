@@ -51,6 +51,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b08568807fca94458e7c8007bb7a044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GraphHolder: {fileID: 0}
-  PresetMenuFab: {fileID: 0}
   xLengthForNextGraph: 80
